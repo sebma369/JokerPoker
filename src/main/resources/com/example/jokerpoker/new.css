@@ -1,0 +1,51 @@
+/**
+ * 设置舞台背景图片
+ */
+.root {     }
+
+/**
+ * 设置风格标签
+ * */
+.label{
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+/*
+ *设置标题文本样式
+ */
+#title{
+    -fx-font-size: 32px;
+    -fx-font-family: "Arial Blackt";
+    -fx-fill: #818181;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+/**
+ * 设置提示文本样式
+ * */
+#actiontarget {
+    -fx-fill: FIREBRICK;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+/**
+ * 设置登陆按钮样式
+ */
+#btnLogin{
+    -fx-background-color: rgba(30, 30, 30,0);
+    -fx-text-fill: rgb(206, 209, 212);
+    -fx-font-size: 25px;
+    -fx-padding:5px;
+    -fx-border-color: rgb(206, 209, 212);
+    -fx-border-radius: 30px;
+    -fx-border-width: 3px;
+}
+#btnLogin:hover{
+    -fx-border-color:rgb(78,161,239);
+    -fx-text-fill:rgb(78,161,239);
+}
+/*设置登陆按钮悬停样式 */
