@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="907.0" prefWidth="1160.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="907.0" fitWidth="1160.0">
+         <image>
+            <Image url="@../../../../../../b54d11cce121d572d638f37dcb238aa4.jpeg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="115.0" layoutY="136.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="115.0" layoutY="173.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块3.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="115.0" layoutY="207.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块4.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="115.0" layoutY="242.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="144.0" layoutX="114.0" layoutY="279.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块6.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="199.0" fitWidth="144.0" layoutX="114.0" layoutY="315.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块7.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="115.0" layoutY="354.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块8.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="115.0" layoutY="391.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块9.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="140.0" layoutX="117.0" layoutY="424.0">
+         <image>
+            <Image url="@../../../../../../pokercards/方块10.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="139.0" layoutX="315.0" layoutY="628.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="199.0" fitWidth="142.0" layoutX="353.0" layoutY="630.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃3.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="141.0" layoutX="391.0" layoutY="629.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃4.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="430.0" layoutY="628.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="475.0" layoutY="629.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃6.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="144.0" layoutX="517.0" layoutY="629.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃7.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="199.0" fitWidth="144.0" layoutX="563.0" layoutY="629.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃8.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="141.0" layoutX="606.0" layoutY="628.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃9.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="652.0" layoutY="628.0">
+         <image>
+            <Image url="@../../../../../../pokercards/黑桃10.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="906.0" layoutY="136.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="138.0" layoutX="908.0" layoutY="173.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃3.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="908.0" layoutY="207.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃4.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="143.0" layoutX="906.0" layoutY="242.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃5.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="906.0" layoutY="279.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃6.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="142.0" layoutX="906.0" layoutY="315.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃7.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="144.0" layoutX="906.0" layoutY="354.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃8.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="140.0" layoutX="907.0" layoutY="391.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃9.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="144.0" layoutX="907.0" layoutY="430.0">
+         <image>
+            <Image url="@../../../../../../pokercards/红桃10.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="558.0" layoutY="530.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="96.0" text="不出" />
+      <Button layoutX="685.0" layoutY="530.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="96.0" text="确定" />
+      <ImageView fitHeight="200.0" fitWidth="134.0" layoutX="376.0" layoutY="85.0">
+         <image>
+            <Image url="@../../../../../../pokercards/背景.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="134.0" layoutX="532.0" layoutY="85.0">
+         <image>
+            <Image url="@../../../../../../pokercards/背景.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="134.0" layoutX="685.0" layoutY="85.0">
+         <image>
+            <Image url="@../../../../../../pokercards/背景.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
