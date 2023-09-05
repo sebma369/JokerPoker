@@ -1,16 +1,19 @@
 /**
  * 设置舞台背景图片
  */
-.root {     }
+#mainwin{
+    -fx-border-width: 1px;
+    -fx-border-color: rgb(78,161,239);
+    -fx-border-radius:20px;
+    -fx-background-color: rgba(24, 24, 24, 0.9);
+    -fx-background-radius: 20px;
+}
 
 /**
  * 设置风格标签
  * */
-.label{
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+#labelTitle{
+    -fx-text-fill: rgb(206,209,212);;
 }
 
 /*
@@ -21,15 +24,6 @@
     -fx-font-family: "Arial Blackt";
     -fx-fill: #818181;
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
-}
-
-/**
- * 设置提示文本样式
- * */
-#actiontarget {
-    -fx-fill: FIREBRICK;
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
 }
 
 /**
@@ -44,8 +38,62 @@
     -fx-border-radius: 30px;
     -fx-border-width: 3px;
 }
+
+/*设置登陆按钮悬停样式 */
 #btnLogin:hover{
     -fx-border-color:rgb(78,161,239);
     -fx-text-fill:rgb(78,161,239);
 }
-/*设置登陆按钮悬停样式 */
+
+#textUsername{
+    -fx-text-fill: rgb(206, 209, 212);
+    -fx-background-color: null;
+    -fx-border-color: rgb(206, 209, 212);
+    -fx-border-radius: 28px;
+    -fx-border-width: 2px;
+}
+#textUsername:hover{
+    -fx-border-color:rgb(78,161,239);
+}
+
+#textPassword{
+    -fx-text-fill: rgb(206, 209, 212);
+    -fx-background-color: null;
+    -fx-border-color: rgb(206, 209, 212);
+    -fx-border-radius: 28px;
+    -fx-border-width: 2px;
+}
+#textPassword:hover{
+    -fx-border-color:rgb(78,161,239);
+}
+
+#btnEnroll{
+    -fx-border-width: 0px;
+    -fx-background-color: null;
+}
+#btnEnroll:hover{
+    -fx-text-fill: rgb(78,161,239);
+}
+
+#btnMin{
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-border-color: null;
+    -fx-background-color: null;
+    -fx-background-image: url('bg/minn.png');
+    -fx-background-size: 20px;
+}
+#btnMin:hover{
+    -fx-border-color: rgb(78,161,239);
+}
+#btnClose{
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-border-color: null;
+    -fx-background-color: null;
+    -fx-background-image: url('bg/close.png');
+    -fx-background-size: 20px;
+}
+#btnClose:hover{
+    -fx-border-color: red;
+}
