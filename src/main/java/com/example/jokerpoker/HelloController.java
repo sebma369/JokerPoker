@@ -25,5 +25,7 @@ public class HelloController implements Initializable {
         String fontPath=HelloController.class.getResource("fonts/spider.ttf").toExternalForm();
         Font spiderFont = Font.loadFont(fontPath,30);;
         this.labelTitle.setFont(spiderFont);
+
+
     }
 }
