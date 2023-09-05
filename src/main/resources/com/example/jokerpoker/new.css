@@ -45,27 +45,17 @@
     -fx-text-fill:rgb(78,161,239);
 }
 
-#textUsername{
+.text-field{
     -fx-text-fill: rgb(206, 209, 212);
     -fx-background-color: null;
     -fx-border-color: rgb(206, 209, 212);
     -fx-border-radius: 28px;
     -fx-border-width: 2px;
 }
-#textUsername:hover{
+.text-field:hover{
     -fx-border-color:rgb(78,161,239);
 }
 
-#textPassword{
-    -fx-text-fill: rgb(206, 209, 212);
-    -fx-background-color: null;
-    -fx-border-color: rgb(206, 209, 212);
-    -fx-border-radius: 28px;
-    -fx-border-width: 2px;
-}
-#textPassword:hover{
-    -fx-border-color:rgb(78,161,239);
-}
 
 #btnEnroll{
     -fx-border-width: 0px;
