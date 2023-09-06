@@ -3,6 +3,7 @@ package com.example.jokerpoker.Server;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class DatagramSocketServer {
     public void startServer() throws IOException {
@@ -21,6 +22,13 @@ public class DatagramSocketServer {
             String str = new String (buffer, 0, len);
             System.out.println(str);
             System.out.println("----------------------------------");
+
+            //返回给客户端，说明服务端已经接受到信息
+            byte[] backMsg = "服务端已接收".getBytes();
+            InetAddress clientAddress = packetServer.getAddress();
+            int clientPort = packetServer.getPort();
+            DatagramPacket backPacket = new DatagramPacket(backMsg, backMsg.length, clientAddress, clientPort);
+            socketServer.send(backPacket);
         }
     }
 }

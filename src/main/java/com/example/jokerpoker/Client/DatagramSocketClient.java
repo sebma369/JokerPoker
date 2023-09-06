@@ -25,6 +25,14 @@ public class DatagramSocketClient {
 
             //3.将数据包的数据发送出去
             socketClient.send(packetClient);
+
+            //客户端接受服务端返回的信息
+            byte[] receiveData = new byte[1024 * 64];
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            socketClient.receive(receivePacket);
+            int msgLength = receivePacket.getLength();
+            String serverResponse = new String(receiveData, 0, msgLength);
+            System.out.println(serverResponse);
         }
 
     }
