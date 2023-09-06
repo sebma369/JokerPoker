@@ -30,7 +30,7 @@ public class AccountDAO {
 
     public static void main(String[] args) {
         AccountDAO accountDAO = new AccountDAO();
-        int n = accountDAO.checkUser("player2","123456");
+        int n = accountDAO.checkUser("player1","123456");
         System.out.println(n);
     }
 }
