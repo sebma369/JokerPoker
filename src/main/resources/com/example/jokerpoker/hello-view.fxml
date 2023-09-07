@@ -12,14 +12,14 @@
          <children>
             <HBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="21.0" prefWidth="354.0">
                <children>
-                  <Button fx:id="btnMin" mnemonicParsing="false" prefHeight="10.0" prefWidth="20.0">
+                  <Button fx:id="btnMin" mnemonicParsing="false" prefHeight="10.0" prefWidth="20.0" onAction="#min">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                      <font>
                         <Font size="10.0" />
                      </font></Button>
-                  <Button fx:id="btnClose" mnemonicParsing="false" prefHeight="10.0" prefWidth="22.0">
+                  <Button fx:id="btnClose" mnemonicParsing="false" prefHeight="10.0" prefWidth="22.0" onAction="#close">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
@@ -41,7 +41,8 @@
                <VBox.margin>
                   <Insets bottom="15.0" left="60.0" right="60.0" top="15.0" />
                </VBox.margin></TextField>
-            <Button fx:id="btnLogin" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="154.0" text="SUBMIT">
+            <Button fx:id="btnLogin" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="154.0" text="SUBMIT" onAction="#login" >
+
                <font>
                   <Font size="19.0" />
                </font>
@@ -55,7 +56,8 @@
             <HBox alignment="CENTER" prefHeight="52.0" prefWidth="354.0">
                <children>
                   <Label fx:id="labelText" text="No Account ? -&gt;" textFill="#ced1d4" />
-                  <Button fx:id="btnEnroll" mnemonicParsing="false" text="Enroll" textFill="#ced1d4" />
+                  <Button fx:id="btnEnroll" mnemonicParsing="false" text="Enroll" textFill="#ced1d4" onAction="#enroll"/>
+
                </children>
             </HBox>
          </children></VBox>

@@ -1,4 +1,4 @@
-package com.example.jokerpoker.Client;
+package com.example.jokerpoker;
 
 import java.io.IOException;
 
