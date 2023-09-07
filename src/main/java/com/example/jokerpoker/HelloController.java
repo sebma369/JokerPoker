@@ -3,6 +3,7 @@ package com.example.jokerpoker;
 import com.example.jokerpoker.dao.AccountDAO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -64,8 +65,11 @@ public class HelloController {
             stage.setScene(scene);
             stage.show();
         } else {
-            Stage stage = (Stage) btnLogin.getScene().getWindow();
-            stage.close();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("警告");
+            alert.setContentText("账号或密码错误");
+            alert.setHeaderText("错误");
+            alert.showAndWait();
         }
     }
 
