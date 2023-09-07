@@ -1,8 +1,10 @@
 package com.example.jokerpoker;
 
+import com.example.jokerpoker.dao.AccountDAO;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -25,6 +27,12 @@ public class HelloController {
     private Button btnMin;
 
     @FXML
+    private TextField textUsername;
+
+    @FXML
+    private TextField textPassword;
+
+    @FXML
     public void enroll(ActionEvent event) throws Exception {
             Stage stage = (Stage) btnEnroll.getScene().getWindow();
             Parent root = null;
@@ -41,6 +49,10 @@ public class HelloController {
 
     @FXML
     public void login(ActionEvent event) throws Exception {
+        AccountDAO accountDAO = new AccountDAO();
+        String user = textUsername.getText();
+        String pass = textPassword.getText();
+        if (accountDAO.checkUser(user,pass) == 1) {
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             Parent root = null;
             try {
@@ -51,6 +63,10 @@ public class HelloController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+        } else {
+            Stage stage = (Stage) btnLogin.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public void close(ActionEvent event) throws Exception {
