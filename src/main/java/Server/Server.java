@@ -91,29 +91,30 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
      */
     //选择房间
     public Room selectRoom() throws IOException {
-        String message;
-        while (true){
-            player.sendMsg(getRoomNum());
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            message = player.receiveMsg();
-            if (!message.equals("-1")){
-                int choice = Integer.parseInt(message);
-                if (rooms[choice].getNum() >= 3){
-                    player.sendMsg("full");//表示此房间人数已满
-                    player.receiveMsg();
-                } else {
-                    player.sendMsg("ok");//表示可以进入此房间
-                    player.receiveMsg();
-                    rooms[choice].addPlayer(player);//房间记录玩家
-                    player.setRoom(rooms[choice]);//记录玩家的房间
-                    return rooms[choice];
-                }
-            }
-        }
+        return rooms[0];
+//        String message;
+//        while (true){
+//            player.sendMsg(getRoomNum());
+//            try {
+//                Thread.sleep(10);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            message = player.receiveMsg();
+//            if (!message.equals("-1")){
+//                int choice = Integer.parseInt(message);
+//                if (rooms[choice].getNum() >= 3){
+//                    player.sendMsg("full");//表示此房间人数已满
+//                    player.receiveMsg();
+//                } else {
+//                    player.sendMsg("ok");//表示可以进入此房间
+//                    player.receiveMsg();
+//                    rooms[choice].addPlayer(player);//房间记录玩家
+//                    player.setRoom(rooms[choice]);//记录玩家的房间
+//                    return rooms[choice];
+//                }
+//            }
+//        }
     }
     /**
 

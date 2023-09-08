@@ -113,29 +113,31 @@ public class Gameround {
      */
     //抢地主
     public boolean qiangdizhu() {
-        int bujiao = 0;//都不叫,则重新发牌
-        init();//初始化抢地主点数n
-        for (int i = 0; i < 3; i++) {
-            sendToOne(i, "抢地主");
-            String s = sendToOne(i, tostring(n));
-            players.get(i).setQiangdizhu(Integer.parseInt(s));
-            if (s.equals("0")) {
-                bujiao++;
-            }else {
-                n.remove(s);
-            }
-            sendToAnotherTwo(i, s);//给其他玩家发送此玩家抢的点数
-        }
-        if (bujiao == 3){
-            System.out.println("重新洗牌");
-            return false;
-        }
-        //找出地主
-        for (int i = 1; i < 3; i++) {
-            if (players.get(i).getQiangdizhu() > players.get(whoIsLord).getQiangdizhu()) {
-                whoIsLord = i;//i是地主
-            }
-        }
+//        int bujiao = 0;//都不叫,则重新发牌
+//        init();//初始化抢地主点数n
+//        for (int i = 0; i < 3; i++) {
+//            sendToOne(i, "抢地主");
+//            String s = sendToOne(i, tostring(n));
+//            players.get(i).setQiangdizhu(Integer.parseInt(s));
+//            if (s.equals("0")) {
+//                bujiao++;
+//            }else {
+//                n.remove(s);
+//            }
+//            sendToAnotherTwo(i, s);//给其他玩家发送此玩家抢的点数
+//        }
+//        if (bujiao == 3){
+//            System.out.println("重新洗牌");
+//            return false;
+//        }
+//        //找出地主
+//        for (int i = 1; i < 3; i++) {
+//            if (players.get(i).getQiangdizhu() > players.get(whoIsLord).getQiangdizhu()) {
+//                whoIsLord = i;//i是地主
+//            }
+//        }
+
+        whoIsLord = 1;
         for (int i = 0; i < 3; i++) {
             if (i == whoIsLord) {
                 sendToOne(i, "you");
