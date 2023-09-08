@@ -49,7 +49,7 @@ public class HelloController {
     }
 
     @FXML
-    public void login(ActionEvent event) throws Exception {
+    public void login(ActionEvent event) throws Exception {    //登录
         AccountDAO accountDAO = new AccountDAO();
         String user = textUsername.getText();
         String pass = textPassword.getText();
