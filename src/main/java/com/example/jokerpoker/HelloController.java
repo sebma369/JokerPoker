@@ -35,17 +35,7 @@ public class HelloController {
 
     @FXML
     public void enroll(ActionEvent event) throws Exception {
-            Stage stage = (Stage) btnEnroll.getScene().getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("enroll-view.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
+        HelloApplication.enroll();
     }
 
     @FXML
