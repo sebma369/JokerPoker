@@ -42,37 +42,43 @@ public class EnrollController {
         String pass = textPassword.getText();
         String check = textCheckedPassword.getText();
 
-        if (pass.equals(check)) {
-            if (accountDAO.checkUser(user,pass) == 1) {
-                //账号或密码已存在，请重新注册
+        if (user == null || user.length() == 0 || pass == null || pass.length() == 0 || check == null || check.length() == 0) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("警告");
+            alert.setContentText("账号或密码为空，请重新输入！");
+            alert.setHeaderText("错误");
+            alert.showAndWait();
+        }
+        else {
+            if (pass.equals(check)) {
+                if (accountDAO.checkUser(user, pass) == 1) {
+                    //账号或密码已存在，请重新注册
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("警告");
+                    alert.setContentText("账号或密码已存在，请重新注册！");
+                    alert.setHeaderText("错误");
+                    alert.showAndWait();
+                } else {
+                    accountDAO.saveUser(user, pass);
+                    //注册成功
+                    Stage stage = (Stage) btnLogin.getScene().getWindow();
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                }
+            } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("警告");
-                alert.setContentText("账号或密码已存在，请重新注册！");
+                alert.setContentText("两次密码输入不一致！");
                 alert.setHeaderText("错误");
                 alert.showAndWait();
             }
-            else {
-                accountDAO.saveUser(user,pass);
-                //注册成功
-                Stage stage = (Stage) btnLogin.getScene().getWindow();
-                Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-        }
-
-        else  {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("警告");
-            alert.setContentText("两次密码输入不一致！");
-            alert.setHeaderText("错误");
-            alert.showAndWait();
         }
 
 
