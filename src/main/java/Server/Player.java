@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class bPlayer {
+public class Player {
     private ArrayList<String> playerDeck;//玩家的牌
     private DataOutputStream out;//玩家的输出流
     private DataInputStream in;//玩家的输入流
