@@ -1,23 +1,22 @@
 package com.example.jokerpoker;
 //gameWindow
 
-import Server.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.image.Image;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javax.swing.*;
+
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static java.lang.Thread.sleep;
 
 public class GameController {
@@ -86,25 +85,25 @@ public class GameController {
         chupai = new Button();
         buchu = new Button();
 
-        bg = new Image(getClass().getResource("Client/img/GG.png").toExternalForm()); //后面再改图片
+        bg = new Image(getClass().getResource("img/desk.jpg").toExternalForm()); //后面再改图片
 
-        GG = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
+        GG = new Image(getClass().getResource("img/GG.png").toExternalForm());
         ImageView GGView = new ImageView(GG);
-        Label player1 = new Label("", GGView);
-        Label player2 = new Label("", GGView);
-        GG_lord1Image = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
-        ImageView GG_lord1 = new ImageView(GG_lord1Image);
-        GG_lord2Image = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
-        ImageView GG_lord2 = new ImageView(GG_lord2Image);
-        chupai_btnImage = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
+        player1 = new Label("", GGView);
+        player2 = new Label("", GGView);
+        GG_lord1Image = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        GG_lord1 = new ImageView(GG_lord1Image);
+        GG_lord2Image = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        GG_lord2 = new ImageView(GG_lord2Image);
+        chupai_btnImage = new Image(getClass().getResource("img/GG.png").toExternalForm());
         ImageView chupai_btn = new ImageView(chupai_btnImage);
-        chupai_false_btnImage = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
+        chupai_false_btnImage = new Image(getClass().getResource("img/GG.png").toExternalForm());
         chupai_false_btn = new ImageView(chupai_false_btnImage);
-        buchu_btn = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
+        buchu_btn = new Image(getClass().getResource("img/GG.png").toExternalForm());
         ImageView buchu_btnView = new ImageView(buchu_btn);
         player1_num = new Label(); //玩家手牌数
         player2_num = new Label();
-        poker_backImage = new Image(getClass().getResource("Client/img/GG.png").toExternalForm());
+        poker_backImage = new Image(getClass().getResource("img/GG.png").toExternalForm());
         poker_back = new ImageView(poker_backImage);
         font = new Font("宋体", Font.BOLD, 20);
         font2 = new Font("宋体", Font.BOLD, 16);
@@ -146,21 +145,21 @@ public class GameController {
             }
         });
         btn_group2.setStyle("-fx-background-color: transparent;");
-        images[0] = new Image(getClass().getResource().toExternalForm());
-        images[1] = new Image(getClass().getResource().toExternalForm());
-        images[2] = new Image(getClass().getResource().toExternalForm());
-        images[3] = new Image(getClass().getResource().toExternalForm());
-        images[4] = new Image(getClass().getResource().toExternalForm());
-        images[5] = new Image(getClass().getResource().toExternalForm());
-        images[6] = new Image(getClass().getResource().toExternalForm());
-        images[7] = new Image(getClass().getResource().toExternalForm());
-        images[8] = new Image(getClass().getResource().toExternalForm());
-        images[9] = new Image(getClass().getResource().toExternalForm());
-        images[10] = new Image(getClass().getResource().toExternalForm());
-        images[11] = new Image(getClass().getResource().toExternalForm());
-        images[12] = new Image(getClass().getResource().toExternalForm());
-        images[13] = new Image(getClass().getResource().toExternalForm());
-        images[14] = new Image(getClass().getResource().toExternalForm());
+        images[0] = new Image(getClass().getResource("img/poker/A.jpg").toExternalForm());
+        images[1] = new Image(getClass().getResource("img/poker/2.jpg").toExternalForm());
+        images[2] = new Image(getClass().getResource("img/poker/3.jpg").toExternalForm());
+        images[3] = new Image(getClass().getResource("img/poker/4.jpg").toExternalForm());
+        images[4] = new Image(getClass().getResource("img/poker/5.jpg").toExternalForm());
+        images[5] = new Image(getClass().getResource("img/poker/6.jpg").toExternalForm());
+        images[6] = new Image(getClass().getResource("img/poker/7.jpg").toExternalForm());
+        images[7] = new Image(getClass().getResource("img/poker/8.jpg").toExternalForm());
+        images[8] = new Image(getClass().getResource("img/poker/9.jpg").toExternalForm());
+        images[9] = new Image(getClass().getResource("img/poker/10.jpg").toExternalForm());
+        images[10] = new Image(getClass().getResource("img/poker/J.jpg").toExternalForm());
+        images[11] = new Image(getClass().getResource("img/poker/Q.jpg").toExternalForm());
+        images[12] = new Image(getClass().getResource("img/poker/K.jpg").toExternalForm());
+        images[13] = new Image(getClass().getResource("img/poker/small.jpg").toExternalForm());
+        images[14] = new Image(getClass().getResource("img/poker/big.jpg").toExternalForm());
 
         ImageView[] smallImages = new ImageView[15];
 
@@ -226,7 +225,7 @@ public class GameController {
     }
 
     public void addSelf(String s) {
-        Image lordImage = new Image();
+        Image lordImage = new Image(getClass().getResource("img/lord.png").toExternalForm());
         ImageView lord = new ImageView(lordImage);
         Label l = new Label("", lord);
         //设置底牌
@@ -274,7 +273,7 @@ public class GameController {
     }
 
     public void showLordWin() throws InterruptedException {
-        Image lordWinImage = new Image();
+        Image lordWinImage = new Image(getClass().getResource("img/lord_win.png").toExternalForm());
         ImageView lordWin = new ImageView(lordWinImage);
         Label label = new Label("", lordWin);
 
@@ -288,7 +287,7 @@ public class GameController {
     }
 
     public void showLordLose() throws InterruptedException {
-        Image lordLoseImage = new Image();
+        Image lordLoseImage = new Image(getClass().getResource("img/lord_lose.png").toExternalForm());
         ImageView lordLose = new ImageView(lordLoseImage);
         Label label = new Label("", lordLose);
 
@@ -302,7 +301,7 @@ public class GameController {
     }
 
     public void showFarmerWin() throws InterruptedException {
-        Image farmerWinImage = new Image();
+        Image farmerWinImage = new Image(getClass().getResource("img/farmer_win.png").toExternalForm());
         ImageView farmerWin = new ImageView(farmerWinImage);
         Label label = new Label("", farmerWin);
 
@@ -316,7 +315,7 @@ public class GameController {
     }
 
     public void showFarmerLose() throws InterruptedException {
-        Image farmerLoseImage = new Image();
+        Image farmerLoseImage = new Image(getClass().getResource("img/farmer_lose.png").toExternalForm());
         ImageView farmerLose = new ImageView(farmerLoseImage);
         Label label = new Label("", farmerLose);
 
@@ -366,8 +365,13 @@ public class GameController {
         int num = player.getDeck().size();
         double total_w = (num * w + 2 * w) / 3;
         int floor = 250;
+        ImageView[] pokersImage = new ImageView[15];
+        for(int i = 0;i < num; i++){
+            pokersImage[i] = new ImageView(images[i]);
+        }
         for(int i = 0; i < num; i++) {
-            addIcon(labels[i], player.getDeck().get(i), this.images);
+
+            addIcon(labels[i], player.getDeck().get(i), pokersImage);
             labels[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
             labels[i].setLayoutY(height / 2 + 70);
             labels[i].setPrefHeight(h + 30);
@@ -501,22 +505,5 @@ public class GameController {
             label.setGraphic(images[14]);
     }
 
-    public void close(){
-        Stage stage = (Stage) Platform.runLater(() -> {}).getScene().getWindow();
-    public void close() {
-    }
-
-    public void refresh(String serverMessage) {
-    }
-
-    public void addSelf(String toString) {
-    }
-
-    public void addLord(String serverMessage) {
-    }
-
-    public int[] getLocate(Stage stage) {
-
-    }
 
 }

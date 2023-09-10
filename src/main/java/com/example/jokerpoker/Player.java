@@ -170,16 +170,15 @@ public class Player {
     }
 
     public void playGame() throws IOException, InterruptedException {
-        Stage newStage = new Stage();
-        try {
-            helloApplication.start(newStage);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        if (!HelloApplication.login) return ;
+//        Stage newStage = new Stage();
+//        try {
+//            helloApplication.start(newStage);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (!HelloApplication.login) return ;
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(Player.class.getResource("game-view.fxml"));
-
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
         Stage stage = new Stage();
@@ -260,16 +259,6 @@ public class Player {
     public boolean qiangdizhu() throws IOException, InterruptedException {
 
         System.out.println("抢地主");//前端显示抢地主
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(Player.class.getResource("game-view.fxml"));
-        Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
-        gameController = fxmlLoader.getController();
-
-        gameController.printCards();
 
 //        int bujiao = 0;
 //        for (int i = 0; i < 3; i++) {
@@ -321,5 +310,8 @@ public class Player {
         gameController.printCards();//显示手牌
         System.out.println("你的手牌为" + deck.toString());//显示自己的手牌
         return true;
+    }
+    public ArrayList<String> getDeck() {
+        return deck;
     }
 }
