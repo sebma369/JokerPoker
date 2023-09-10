@@ -1,7 +1,6 @@
 package com.example.jokerpoker;
 
 import com.example.jokerpoker.dao.AccountDAO;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -33,27 +32,26 @@ public class HelloController {
     @FXML
     private TextField textPassword;
 
-    @FXML
     public void enroll(ActionEvent event) throws Exception {
         HelloApplication.enroll();
     }
 
-    @FXML
+    public void set(){
+        this.textPassword.setText("123");
+    }
+
     public void login(ActionEvent event) throws Exception {    //登录
         AccountDAO accountDAO = new AccountDAO();
         String user = textUsername.getText();
         String pass = textPassword.getText();
         if (accountDAO.checkUser(user,pass) == 1) {
-            Stage stage = (Stage) btnLogin.getScene().getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("game-view.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            HelloApplication.login=true;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("警告");
+            alert.setContentText("success");
+            alert.showAndWait();
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("警告");

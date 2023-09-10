@@ -4,31 +4,20 @@ package com.example.jokerpoker;
 import Server.Player;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.control.Label;
-import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.application.Platform;
-import javafx.stage.Stage;
-import javafx.stage.Screen;
-import javafx.geometry.Rectangle2D;
-
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static java.lang.Thread.sleep;
 
 public class GameController {
@@ -127,7 +116,7 @@ public class GameController {
         height = 450;
         isOutCards = false;
         images = new Image[15];//卡牌图片
-        smallImages = new Image[15];//小图片
+        smallImages = new ImageView[15];//小图片
         last_cardNum = 0;//出牌区上次的卡牌数
         last_haveCards = 0;//手牌区上次手牌数量
 
@@ -514,9 +503,16 @@ public class GameController {
 
     public void close(){
         Stage stage = (Stage) Platform.runLater(() -> {}).getScene().getWindow();
+    public void close() {
+    }
 
-        // 隐藏窗口
-        stage.hide();
+    public void refresh(String serverMessage) {
+    }
+
+    public void addSelf(String toString) {
+    }
+
+    public void addLord(String serverMessage) {
     }
 
     public int[] getLocate(Stage stage) {

@@ -25,19 +25,20 @@ public class HelloApplication extends Application {
     private final static double MIN_HEIGHT = 460;// 窗口最小高度
     private double xOffset = 0;
     private double yOffset = 0;
-    public static Stage stage;
+    public HelloController helloController;
+    public static EnrollApplication enrollApplication= new EnrollApplication();
+    public static boolean login ;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-        Parent enrollRoot = FXMLLoader.load(getClass().getResource("enroll-view.fxml"));
-        Scene enrollScene = new Scene(enrollRoot,356,560);
-        stage.initStyle(StageStyle.TRANSPARENT);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("hello-view.fxml"));
+        Parent root = fxmlLoader.load();
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
         Scene scene =new Scene(root,356,460);
         scene.setFill(Color.TRANSPARENT);
-        stage.setScene(scene);
-
+        primaryStage.setScene(scene);
+        helloController = fxmlLoader.getController();
         root.setOnMouseMoved(event -> {
             event.consume();
             double x = event.getSceneX();
@@ -103,17 +104,12 @@ public class HelloApplication extends Application {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
-        primaryStage.show();
+        primaryStage.showAndWait();
     }
 
     public static void enroll() throws Exception{
-        Parent root = FXMLLoader.load(HelloApplication.class.getResource("enroll-view.fxml"));
-        Stage newStage = new Stage();
-        newStage.initStyle(StageStyle.TRANSPARENT);
-        Scene scene =new Scene(root,356,550);
-        scene.setFill(Color.TRANSPARENT);
-        newStage.setScene(scene);
-        newStage.show();
+        Stage stage = new Stage();
+        enrollApplication.start(stage);
     }
 
 
