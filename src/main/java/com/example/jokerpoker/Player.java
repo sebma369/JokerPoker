@@ -23,7 +23,7 @@ public class Player {
     private DataInputStream in;//输入流
     private DataOutputStream out;//输出流
     private Socket socket = new Socket();//客户端的套接字
-    private ArrayList<String> deck = new ArrayList<>();//自己的牌
+    public ArrayList<String> deck = new ArrayList<>();//自己的牌
     private String serverMessage;//服务器消息
     private boolean isLord;//自己是不是地主
     public String whoIsLord = "zsj";//谁是地主
@@ -200,6 +200,16 @@ public class Player {
 
 
         gameController.outCards();
+//        Thread newThread = new Thread(()->{
+//                try {
+//                    gameController.t1.join();
+//
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//        });
+//        newThread.start();
+        System.out.println(gameController.stringBuilder);
         String str=gameController.stringBuilder.toString();
         //out.writeUTF(str);//str表示出的牌
         System.out.println(str);
@@ -208,6 +218,8 @@ public class Player {
             deck.remove(s1);
         }
         gameController.printCards();
+        System.out.println("next");
+        //gameController.t1.join();
         //开始出牌
 //        while (true) {
 //            serverMessage = in.readUTF();

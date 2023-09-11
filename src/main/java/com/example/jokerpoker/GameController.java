@@ -123,12 +123,27 @@ public class GameController {
         buchu.setGraphic(buchu_btnView);
         chupai.setGraphic(chupai_false_btn);
         chupai.setOnAction(e->{
-            synchronized (lock) {
-                isOutCards = true;
-                lock.notify(); // 唤醒等待的线程
+//            synchronized (lock) {
+//                isOutCards = true;
+//                lock.notify(); // 唤醒等待的线程
+//            }
+            if(!card.isEmpty()) {
+                System.out.println("in in");
+                front.getChildren().remove(buchu);
+                front.getChildren().remove(chupai);
+                for (Integer i : this.card) {
+                    stringBuilder.append(player.getDeck().get(i));
+                }
+                String str=stringBuilder.toString();
+                //out.writeUTF(str);//str表示出的牌
+                System.out.println(str);
+                String[] s = str.split("");
+                for (String s1 : s) {
+                    player.deck.remove(s1);
+                }
+                printCards();
+
             }
-            front.getChildren().remove(buchu);
-            front.getChildren().remove(chupai);
         });
 
         buchu.setOnAction(e -> {
@@ -352,7 +367,6 @@ public class GameController {
             labels[i].setOnMouseClicked(event -> {
                 if (!card.contains(finalI)) {
                     card.add(finalI);
-
                     labels[finalI].setTranslateY(labels[finalI].getTranslateY() - 20);
                 } else {
                     for(int m = 0; m < card.size(); m++){
@@ -360,7 +374,6 @@ public class GameController {
                             card.remove(m);
                         }
                     }
-
                     labels[finalI].setTranslateY(labels[finalI].getTranslateY() + 20);
                 }
                 CompareCard compareCard = CompareCard.getInstance();
@@ -385,39 +398,40 @@ public class GameController {
             }
 
     }
+    public Thread t1 ;
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() throws InterruptedException {
-
         chupai.setDisable(true);
         this.front.add(chupai, 0, 0);
         this.front.add(buchu, 1, 0);
-        Thread t1 = new Thread(() -> {
-            try {
-                System.out.println("wait开始");
-                synchronized (lock) {
-                    lock.wait();
-                }
-                System.out.println("wait结束");
-                this.isOutCards = false;
-                System.out.println("asdasqwew");
-                stringBuilder  = new StringBuilder();
-                for (Integer i : this.card) {
-                    stringBuilder.append(player.getDeck().get(i));
-                }
 
-                card.clear();
-
-                // 在事件分发线程上执行界面操作
-                Platform.runLater(() -> {
-                    for(Label label: labels){
-                        layeredPane.getChildren().remove(label);
-                    }
-                });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-        t1.start();
+//        t1 = new Thread(() -> {
+//            try {
+//                System.out.println("wait开始");
+//                synchronized (lock) {
+//                    lock.wait();
+//                }
+//                System.out.println("wait结束");
+//                this.isOutCards = false;
+//                System.out.println("asdasqwew");
+//                stringBuilder  = new StringBuilder();
+//                for (Integer i : this.card) {
+//                    stringBuilder.append(player.getDeck().get(i));
+//                }
+//
+//                card.clear();
+//
+//                // 在事件分发线程上执行界面操作
+//                Platform.runLater(() -> {
+//                    for(Label label: labels){
+//                        layeredPane.getChildren().remove(label);
+//                    }
+//                });
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        t1.start();
 
     }
     Label[] playedCards = new Label[20];
