@@ -21,7 +21,7 @@ import static java.lang.Thread.sleep;
 
 public class Player {
     private DataInputStream in;//输入流
-    private DataOutputStream out;//输出流
+    DataOutputStream out;//输出流
     private Socket socket = new Socket();//客户端的套接字
     public ArrayList<String> deck = new ArrayList<>();//自己的牌
     private String serverMessage;//服务器消息
@@ -202,12 +202,63 @@ public class Player {
                     if(gameReady()) {
                         dealCards();
                         gameController.printCards();
+                        while (true) {
+                            serverMessage = in.readUTF();
+                            if (serverMessage.equals("请你出牌")) {
+                                System.out.println("请你出牌");//前端提示玩家出牌
+//                str = client.scanner.nextLine();//测试,记得删除
+//                while (true) {//测试可把while注释,上面取消注释,可以直接把牌出完
+//                    str = client.scanner.nextLine();//前端设置为while死循环,可以将这个循环放到界面方法里面
+//                    if (str.equals("")) {
+//                        if (CompareCard.getInstance().getPlayer().equals("m")) {
+//                            System.out.println("必须出牌");//前端提示玩家必须出牌
+//                            continue;
+//                        } else
+//                            break;
+//                    }
+//                    if (CompareCard.getInstance().compare(str))
+//                        break;
+//                    System.out.println("吃不了,请重新出牌");//这个可以设置成出牌按钮灰色
+//                }
+                                //出牌
+                                gameController.outCards();
+                                //System.out.println("你现在的牌为" + deck.toString());
+                            } else if (serverMessage.equals("游戏结束")) {//服务器返回结束信号
+                                out.writeUTF("1");
+                                serverMessage = message();
+                                if (serverMessage.equals(whoIsLord)) {
+                                    if (isLord) {
+                                        System.out.println("地主赢了");//前端
+                                        gameController.showLordWin();
+                                    } else {
+                                        System.out.println("农民输了");
+                                        gameController.showFarmerLose();
+                                    }
+                                } else {
+                                    if (isLord) {
+                                        System.out.println("地主输了");
+                                        gameController.showLordLose();
+                                    } else {
+                                        System.out.println("农民赢了");
+                                        gameController.showFarmerWin();
+                                    }
+                                }
+                                //gameController.close();
+                                break;
+                            } else {
+                                CompareCard.getInstance().setCompareCard(serverMessage);//记录其他玩家出牌
+                                //gameController.printPlayedCards(serverMessage);
+                                System.out.println(serverMessage);//前端处理其他玩家出牌,第一个为玩家序号,后面是玩家出的牌
+                                out.writeUTF("1");
+                            }
+                        }
                     }
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e) {
                     throw new RuntimeException(e);
                 }
         });
         newThread.start();
+
 //        System.out.println(gameController.stringBuilder);
 //        String str=gameController.stringBuilder.toString();
 //        //out.writeUTF(str);//str表示出的牌
@@ -218,7 +269,6 @@ public class Player {
 //        }
 //        gameController.printCards();
 //        System.out.println("next");
-        //gameController.t1.join();
         //开始出牌
 //        while (true) {
 //            serverMessage = in.readUTF();

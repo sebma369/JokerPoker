@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class GameController {
 
     @FXML
     GridPane front; //按钮区域
+    @FXML
+    Pane prevPlayerShowPane;
+    @FXML
+    Pane nextPlayerShowPane;
 
     //先不设定抢点机制
     Button chupai;
@@ -53,6 +58,7 @@ public class GameController {
     Image chupai_false_btnImage;
     ImageView chupai_false_btn;
     Image buchu_btn;
+    ImageView buchu_btnView;
     //imageView那些之后再搞
     Label player1_num;
     Label player2_num;
@@ -104,11 +110,11 @@ public class GameController {
         GG_lord2Image = new Image(getClass().getResource("img/GG_lord2.png").toExternalForm());
          GG_lord2 = new ImageView(GG_lord2Image);
         chupai_btnImage = new Image(getClass().getResource("img/chupai.png").toExternalForm());
-        ImageView chupai_btn = new ImageView(chupai_btnImage);
+        chupai_btn = new ImageView(chupai_btnImage);
         chupai_false_btnImage = new Image(getClass().getResource("img/chupai_false.png").toExternalForm());
         chupai_false_btn = new ImageView(chupai_false_btnImage);
         buchu_btn = new Image(getClass().getResource("img/buchu.png").toExternalForm());
-        ImageView buchu_btnView = new ImageView(buchu_btn);
+        buchu_btnView = new ImageView(buchu_btn);
         player1_num = new Label(); //玩家手牌数
         player2_num = new Label();
         poker_backImage = new Image(getClass().getResource("img/poker/poker_back.png").toExternalForm());
@@ -129,20 +135,19 @@ public class GameController {
         buchu.setGraphic(buchu_btnView);
         chupai.setGraphic(chupai_false_btn);
         chupai.setOnAction(e->{
-//            synchronized (lock) {
-//                isOutCards = true;
-//                lock.notify(); // 唤醒等待的线程
-//            }
             if(!card.isEmpty()) {
-                System.out.println("in in");
                 front.getChildren().remove(buchu);
                 front.getChildren().remove(chupai);
+                StringBuilder stringBuilder = new StringBuilder();
                 for (Integer i : this.card) {
                     stringBuilder.append(player.getDeck().get(i));
                 }
-                System.out.println(card);
                 String str=stringBuilder.toString();
-                //player.out.writeUTF(str);//str表示出的牌
+                try {
+                    player.out.writeUTF(str);//str表示出的牌
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 System.out.println(str);
                 String[] s = str.split("");
                 for (String s1 : s) {
@@ -153,6 +158,7 @@ public class GameController {
                     layeredPane.getChildren().remove(label);
                 }
                 printCards();
+                CompareCard.getInstance().setCompareCard("m" + str);//出牌记录下来
             }
         });
 
@@ -162,16 +168,23 @@ public class GameController {
                 alert.setContentText("必须出牌");
                 alert.showAndWait();
             } else {
+                front.getChildren().remove(chupai);
+                front.getChildren().remove(buchu);
                 for (Integer i : card) {
                     labels[i].setTranslateY(labels[i].getTranslateY() + 20);
                 }
-                card.clear();
-                synchronized (lock) {
-                    isOutCards = true;
-                    lock.notify(); // 唤醒等待的线程
+                String str = "";
+                try {
+                    player.out.writeUTF(str);//str表示出的牌
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
                 }
-                front.getChildren().remove(chupai);
-                front.getChildren().remove(buchu);
+                card.clear();
+                for (Label label : labels) {
+                    layeredPane.getChildren().remove(label);
+                }
+                printCards();
+                CompareCard.getInstance().setCompareCard("m" + str);
             }
         });
         images[0] = new Image(GameController.class.getResource("img/poker/A.jpg").toExternalForm());
@@ -297,7 +310,9 @@ public class GameController {
 
         label.setLayoutX(width / 2 - lordWin.getFitWidth() / 2);
         label.setLayoutY(height / 2 - lordWin.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+                    layeredPane.getChildren().add(label);
+                });
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -311,7 +326,8 @@ public class GameController {
 
         label.setLayoutX(width / 2 - lordLose.getFitWidth() / 2);
         label.setLayoutY(height / 2 - lordLose.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+        layeredPane.getChildren().add(label);});
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -325,7 +341,8 @@ public class GameController {
 
         label.setLayoutX(width / 2 - farmerWin.getFitWidth() / 2);
         label.setLayoutY(height / 2 - farmerWin.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+        layeredPane.getChildren().add(label);});
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -339,7 +356,8 @@ public class GameController {
 
         label.setLayoutX(width / 2 - farmerLose.getFitWidth() / 2);
         label.setLayoutY(height / 2 - farmerLose.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+        layeredPane.getChildren().add(label);});
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -368,7 +386,6 @@ public class GameController {
             labels[i].setPrefHeight(h + 30);
             int finalI = i;
             Platform.runLater(()->{
-                System.out.println(finalI);
                 layeredPane.getChildren().add(labels[finalI]);
                 labels[finalI].setOnMouseClicked(event -> {
                     if (!card.contains(finalI)) {
@@ -383,10 +400,11 @@ public class GameController {
                         labels[finalI].setTranslateY(labels[finalI].getTranslateY() + 20);
                     }
                     CompareCard compareCard = CompareCard.getInstance();
+                    System.out.println(compareCard.player+compareCard.cards);
                     StringBuilder stringBuilder = new StringBuilder();
                     if (card.size() == 0) {
                         chupai.setGraphic(chupai_false_btn);
-                        chupai.setDisable(false);
+                        chupai.setDisable(true);
                     } else {
                         for (Integer in : card) {
                             String s = player.getDeck().get(in);
@@ -394,10 +412,10 @@ public class GameController {
                         }
                         if (compareCard.compare(stringBuilder.toString())) {
                             chupai.setGraphic(chupai_btn);
-                            chupai.setDisable(true);
+                            chupai.setDisable(false);
                         } else {
                             chupai.setGraphic(chupai_false_btn);
-                            chupai.setDisable(false);
+                            chupai.setDisable(true);
                         }
                     }
                 });
@@ -406,11 +424,12 @@ public class GameController {
             }
     }
     public StringBuilder stringBuilder = new StringBuilder();
-    public void outCards() throws InterruptedException {
-        chupai.setDisable(true);
-        this.front.add(chupai, 0, 0);
-        this.front.add(buchu, 1, 0);
-
+    public void outCards() {
+        Platform.runLater(()-> {
+                    chupai.setDisable(true);
+                    this.front.add(chupai, 0, 0);
+                    this.front.add(buchu, 1, 0);
+        });
 //        t1 = new Thread(() -> {
 //            try {
 //                System.out.println("wait开始");
@@ -438,7 +457,6 @@ public class GameController {
 //            }
 //        });
 //        t1.start();
-
     }
     Label[] playedCards = new Label[20];
     public void printPlayedCards(String s) throws InterruptedException{
