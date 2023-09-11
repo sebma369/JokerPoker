@@ -24,6 +24,11 @@ public class GameController {
     public Player player;
 
     ArrayList<Integer> card = new ArrayList<>();
+    @FXML
+    Pane prevPlayerShowPane;
+
+    @FXML
+    Pane nextPlayerShowPane;
 
     @FXML
     Pane layeredPane; //放手牌
