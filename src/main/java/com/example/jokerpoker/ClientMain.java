@@ -14,7 +14,7 @@ public class ClientMain extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         //helloApplication.start(stage);
-        //helloApplication.helloController.set();
+
         Player player = new Player();
         player.playGame();
     }
