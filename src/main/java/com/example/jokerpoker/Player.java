@@ -190,27 +190,24 @@ public class Player {
         gameController = fxmlLoader.getController();
         gameController.init();
 //        String[] strings = {
-//                "A", "2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K"};//一副扑克牌13
+//                "A", "A", "3", "4", "5", "5", "7", "7", "9", "X", "J", "Q", "K"};//一副扑克牌13
 //        List<String> list = Arrays.asList(strings);
 //        this.deck = new ArrayList<>(list);
 
         gameController.setPlayer(this);
-        while(true) {
-            dealCards();
-            if(gameReady()) break;
-        }
-        gameController.printCards();
 
-//        gameController.outCards();
-//        Thread newThread = new Thread(()->{
-//                try {
-//                    gameController.t1.join();
-//
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//        });
-//        newThread.start();
+        //gameController.printCards();
+        Thread newThread = new Thread(()->{
+                try {
+                    if(gameReady()) {
+                        dealCards();
+                        gameController.printCards();
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+        });
+        newThread.start();
 //        System.out.println(gameController.stringBuilder);
 //        String str=gameController.stringBuilder.toString();
 //        //out.writeUTF(str);//str表示出的牌

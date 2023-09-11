@@ -64,7 +64,6 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
     @Override
     public void run() {
         try {
-
             do {
                 if (!player.isInGame())
                     //选择房间
@@ -91,6 +90,7 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
      */
     //选择房间
     public Room selectRoom() throws IOException {
+        rooms[0].addPlayer(player);
         return rooms[0];
 //        String message;
 //        while (true){

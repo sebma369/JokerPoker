@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -71,9 +72,9 @@ public class GameController {
 
     public String serverMessage;
     Image[] images;
-    ImageView[] smallImages;
+    Image[] smallImages;
     private int last_cardNum;
-    private int last_haveCards;
+    private int last_haveCards = 0;
     Label[] labels = new Label[20];
 
     private final Object lock = new Object();
@@ -117,7 +118,7 @@ public class GameController {
         height = 450;
         isOutCards = false;
         images = new Image[15];//卡牌图片
-        smallImages = new ImageView[15];//小图片
+        smallImages = new Image[15];//小图片
         last_cardNum = 0;//出牌区上次的卡牌数
         last_haveCards = 0;//手牌区上次手牌数量
         buchu.setGraphic(buchu_btnView);
@@ -134,16 +135,19 @@ public class GameController {
                 for (Integer i : this.card) {
                     stringBuilder.append(player.getDeck().get(i));
                 }
+                System.out.println(card);
                 String str=stringBuilder.toString();
-                //Player.out.writeUTF(str);//str表示出的牌
+                //player.out.writeUTF(str);//str表示出的牌
                 System.out.println(str);
                 String[] s = str.split("");
                 for (String s1 : s) {
                     player.deck.remove(s1);
                 }
                 card.clear();
+                for (Label label : labels) {
+                    layeredPane.getChildren().remove(label);
+                }
                 printCards();
-
             }
         });
 
@@ -341,65 +345,61 @@ public class GameController {
         for (int i = 0; i < last_haveCards; i++) {
             layeredPane.getChildren().remove(labels[i]);
         }
+        int num = player.getDeck().size();
         System.out.println(player.getDeck());
         this.last_haveCards = player.getDeck().size();
         for (int i = 0; i < 20; i++) {
             Label l = new Label();
             labels[i] = l;
         }
-
         double w = images[0].getWidth();
         double h = images[0].getHeight();
-        int num = player.getDeck().size();
-
         double total_w = (num * w + 2 * w) / 3;
-        ImageView[] pokersImage = new ImageView[15];
-        for(int i = 0;i < 15; i++){
-            pokersImage[i] = new ImageView(images[i]);
-        }
         for(int i = 0; i < num; i++) {
-            addIcon(labels[i], player.getDeck().get(i), pokersImage);
+            addIcon(labels[i], player.getDeck().get(i), images);
             labels[i].setOpacity(1.0);
             labels[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
             labels[i].setLayoutY(20);
             labels[i].setPrefHeight(h + 30);
-            layeredPane.getChildren().add(labels[i]);
             int finalI = i;
-            labels[i].setOnMouseClicked(event -> {
-                if (!card.contains(finalI)) {
-                    card.add(finalI);
-                    labels[finalI].setTranslateY(labels[finalI].getTranslateY() - 20);
-                } else {
-                    for(int m = 0; m < card.size(); m++){
-                        if (card.get(m).equals(finalI)){
-                            card.remove(m);
-                        }
-                    }
-                    labels[finalI].setTranslateY(labels[finalI].getTranslateY() + 20);
-                }
-                CompareCard compareCard = CompareCard.getInstance();
-                StringBuilder stringBuilder = new StringBuilder();
-                if (card.size() == 0) {
-                    chupai.setGraphic(chupai_false_btn);
-                    chupai.setDisable(false);
-                } else {
-                    for (Integer in : card) {
-                        String s = player.getDeck().get(in);
-                        stringBuilder.append(s);
-                    }
-                    if (compareCard.compare(stringBuilder.toString())) {
-                        chupai.setGraphic(chupai_btn);
-                        chupai.setDisable(true);
+            Platform.runLater(()->{
+                System.out.println(finalI);
+                layeredPane.getChildren().add(labels[finalI]);
+                labels[finalI].setOnMouseClicked(event -> {
+                    if (!card.contains(finalI)) {
+                        card.add(finalI);
+                        labels[finalI].setTranslateY(labels[finalI].getTranslateY() - 20);
                     } else {
+                        for(int m = 0; m < card.size(); m++){
+                            if (card.get(m).equals(finalI)){
+                                card.remove(m);
+                            }
+                        }
+                        labels[finalI].setTranslateY(labels[finalI].getTranslateY() + 20);
+                    }
+                    CompareCard compareCard = CompareCard.getInstance();
+                    StringBuilder stringBuilder = new StringBuilder();
+                    if (card.size() == 0) {
                         chupai.setGraphic(chupai_false_btn);
                         chupai.setDisable(false);
+                    } else {
+                        for (Integer in : card) {
+                            String s = player.getDeck().get(in);
+                            stringBuilder.append(s);
+                        }
+                        if (compareCard.compare(stringBuilder.toString())) {
+                            chupai.setGraphic(chupai_btn);
+                            chupai.setDisable(true);
+                        } else {
+                            chupai.setGraphic(chupai_false_btn);
+                            chupai.setDisable(false);
+                        }
                     }
-                }
                 });
+            });
+            
             }
-
     }
-    public Thread t1 ;
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() throws InterruptedException {
         chupai.setDisable(true);
@@ -499,38 +499,51 @@ public class GameController {
         }
     }
 
-    public void addIcon(Label label, String card, ImageView[] images){
-        if (card.equals("A"))
-            label.setGraphic(images[0]);
-        else if (card.equals("2"))
-            label.setGraphic(images[1]);
-        else if (card.equals("3"))
-            label.setGraphic(images[2]);
-        else if (card.equals("4"))
-            label.setGraphic(images[3]);
-        else if (card.equals("5"))
-            label.setGraphic(images[4]);
-        else if (card.equals("6"))
-            label.setGraphic(images[5]);
-        else if (card.equals("7"))
-            label.setGraphic(images[6]);
-        else if (card.equals("8"))
-            label.setGraphic(images[7]);
-        else if (card.equals("9"))
-            label.setGraphic(images[8]);
-        else if (card.equals("X"))
-            label.setGraphic(images[9]);
-        else if (card.equals("J"))
-            label.setGraphic(images[10]);
-        else if (card.equals("Q"))
-            label.setGraphic(images[11]);
-        else if (card.equals("K"))
-            label.setGraphic(images[12]);
-        else if (card.equals("w"))
-            label.setGraphic(images[13]);
-        else
-            label.setGraphic(images[14]);
+    public void addIcon(Label label, String card, Image[] images){
+        if (card.equals("A")){
+            ImageView newImg = new ImageView(images[0]);
+            label.setGraphic(newImg);}
+        else if (card.equals("2")){
+            ImageView newImg = new ImageView(images[1]);
+            label.setGraphic(newImg);}
+        else if (card.equals("3")){
+            ImageView newImg = new ImageView(images[2]);
+            label.setGraphic(newImg);}
+        else if (card.equals("4")){
+            ImageView newImg = new ImageView(images[3]);
+            label.setGraphic(newImg);}
+        else if (card.equals("5")){
+            ImageView newImg = new ImageView(images[4]);
+            label.setGraphic(newImg);}
+        else if (card.equals("6")){
+            ImageView newImg = new ImageView(images[5]);
+            label.setGraphic(newImg);}
+        else if (card.equals("7")){
+            ImageView newImg = new ImageView(images[6]);
+            label.setGraphic(newImg);}
+        else if (card.equals("8")){
+            ImageView newImg = new ImageView(images[7]);
+            label.setGraphic(newImg);}
+        else if (card.equals("9")){
+            ImageView newImg = new ImageView(images[8]);
+            label.setGraphic(newImg);}
+        else if (card.equals("X")){
+            ImageView newImg = new ImageView(images[9]);
+            label.setGraphic(newImg);}
+        else if (card.equals("J")){
+            ImageView newImg = new ImageView(images[10]);
+            label.setGraphic(newImg);}
+        else if (card.equals("Q")){
+            ImageView newImg = new ImageView(images[11]);
+            label.setGraphic(newImg);}
+        else if (card.equals("K")){
+            ImageView newImg = new ImageView(images[12]);
+            label.setGraphic(newImg);}
+        else if (card.equals("w")){
+            ImageView newImg = new ImageView(images[13]);
+            label.setGraphic(newImg);}
+        else{
+            ImageView newImg = new ImageView(images[14]);
+            label.setGraphic(newImg);}
     }
-
-
 }
