@@ -1,8 +1,10 @@
 package com.example.jokerpoker;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -158,7 +160,7 @@ public class Player {
     public Player() {
         try {
 //            String ip = "106.13.40.227";//服务器ip
-            String ip = "192.168.204.98";//本地ip
+            String ip = "127.0.0.1";//本地ip
             InetSocketAddress socketAddress = new InetSocketAddress(ip, 8888);
             this.socket.connect(socketAddress);
             System.out.println("接入成功");//前端可以忽视
@@ -354,7 +356,6 @@ public class Player {
         //获取自己的牌
         System.out.println("你的牌为\n" + deck.toString());//前端显示手牌
     }
-
     public String message() throws IOException {
         String str = this.in.readUTF();
         this.out.writeUTF("message");
@@ -371,6 +372,7 @@ public class Player {
                 serverMessage = in.readUTF();
                 gameController.returnDianshu(serverMessage);
                 String s = gameController.qiangdizhu;
+                System.out.println("flag2");
                 //前端改成按钮传入,需要设置阻塞,建议在前端方法里写入while死循环,选择了才返回,选择抢地主的点数
                 if (s.equals("0")) {//后面的通过scanner方法读入的都需要阻塞,都建议使用while死循环
                     bujiao++;

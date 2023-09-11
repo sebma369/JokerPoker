@@ -88,7 +88,7 @@ public class GameController {
     public String serverMessage;
     Image[] images;
     Image[] smallImages;
-    private int last_cardNum;
+    private int last_cardNum = 0;
     private int last_haveCards = 0;
     Label[] labels = new Label[20];
 
@@ -170,8 +170,6 @@ public class GameController {
         isOutCards = false;
         images = new Image[15];//卡牌图片
         smallImages = new Image[15];//小图片
-        last_cardNum = 0;//出牌区上次的卡牌数
-        last_haveCards = 0;//手牌区上次手牌数量
         buchu.setGraphic(buchu_btnView);
         chupai.setGraphic(chupai_false_btn);
         chupai.setOnAction(e->{
@@ -227,7 +225,7 @@ public class GameController {
                 CompareCard.getInstance().setCompareCard("m" + str);
             }
         });
-        images[0] = new Image(GameController.class.getResource("img/poker/A.jpg").toExternalForm());
+        images[0] = new Image(getClass().getResource("img/poker/A.jpg").toExternalForm());
         images[1] = new Image(getClass().getResource("img/poker/2.jpg").toExternalForm());
         images[2] = new Image(getClass().getResource("img/poker/3.jpg").toExternalForm());
         images[3] = new Image(getClass().getResource("img/poker/4.jpg").toExternalForm());
@@ -457,17 +455,18 @@ public class GameController {
 
     public void printCards() {
         Platform.runLater(()->{
+            System.out.println("last"+last_haveCards);
             for (int i = 0; i < last_haveCards; i++) {
                 layeredPane.getChildren().remove(labels[i]);
             }
-        });
+
         int num = player.getDeck().size();
-        System.out.println(player.getDeck());
         this.last_haveCards = player.getDeck().size();
         for (int i = 0; i < 20; i++) {
             Label l = new Label();
             labels[i] = l;
         }
+        System.out.println("flag");
         double w = images[0].getWidth();
         double h = images[0].getHeight();
         double total_w = (num * w + 2 * w) / 3;
@@ -478,7 +477,6 @@ public class GameController {
             labels[i].setLayoutY(20);
             labels[i].setPrefHeight(h + 30);
             int finalI = i;
-            Platform.runLater(()->{
                 layeredPane.getChildren().add(labels[finalI]);
                 labels[finalI].setOnMouseClicked(event -> {
                     if (!card.contains(finalI)) {
@@ -515,9 +513,9 @@ public class GameController {
                         }
                     }
                 });
-            });
             
             }
+        });
     }
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() {
