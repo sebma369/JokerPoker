@@ -55,12 +55,16 @@ public class GameController {
     Image buchu_btn;
     ImageView buchu_btnView;
     //imageView那些之后再搞
+    @FXML
     Label player1_num;
+    @FXML
     Label player2_num;
+
     Image poker_backImage;
     ImageView poker_back;
+
     @FXML
-    Label nextPlayerRole;
+    Pane playerShowPane;
     @FXML
     GridPane dipai;
     Label dipai_1;
@@ -83,6 +87,13 @@ public class GameController {
     private int last_haveCards = 0;
     Label[] labels = new Label[20];
 
+    String qiangdizhu = "-1";
+    Button bujiao = new Button();
+    Button one = new Button();
+    Button two = new Button();
+    Button three = new Button();
+
+
     private final Object lock = new Object();
 
     public void setPlayer(Player player){
@@ -93,9 +104,7 @@ public class GameController {
     public void init(){
         chupai = new Button();
         buchu = new Button();
-
         bg = new Image(getClass().getResource("img/desk.jpg").toExternalForm()); //后面再改图片
-
         GG = new Image(getClass().getResource("img/GG.png").toExternalForm());
         ImageView GGView = new ImageView(GG);
         player1 = new Label("", GGView);
@@ -114,6 +123,37 @@ public class GameController {
         player2_num = new Label();
         poker_backImage = new Image(getClass().getResource("img/poker/poker_back.png").toExternalForm());
         poker_back = new ImageView(poker_backImage);
+        player1_num.toFront();
+        player2_num.toFront();
+        Image image0 = new Image(getClass().getResource("img/0.png").toExternalForm());
+        Image image1 = new Image(getClass().getResource("img/1.png").toExternalForm());
+        Image image2 = new Image(getClass().getResource("img/2.png").toExternalForm());
+        Image image3 = new Image(getClass().getResource("img/3.png").toExternalForm());
+        ImageView imageView0 = new ImageView(image0);
+        ImageView imageView1 = new ImageView(image1);
+        ImageView imageView2 = new ImageView(image2);
+        ImageView imageView3 = new ImageView(image3);
+        bujiao.setGraphic(imageView0);
+        one.setGraphic(imageView1);
+        two.setGraphic(imageView2);
+        three.setGraphic(imageView3);
+        bujiao.setLayoutY(100);
+        one.setLayoutY(100);
+        two.setLayoutY(100);
+        three.setLayoutY(100);
+        bujiao.setOnMouseClicked(mouseEvent -> {
+            this.qiangdizhu = "0";
+        });
+        one.setOnMouseClicked(mouseEvent -> {
+            this.qiangdizhu = "1";
+        });
+        two.setOnMouseClicked(mouseEvent -> {
+            this.qiangdizhu = "2";
+        });
+        three.setOnMouseClicked(mouseEvent -> {
+            this.qiangdizhu = "3";
+        });
+
         font = new Font("宋体", Font.BOLD, 20);
         font2 = new Font("宋体", Font.BOLD, 16);
         player1_id = "-1";
@@ -198,7 +238,6 @@ public class GameController {
         images[13] = new Image(getClass().getResource("img/poker/small.jpg").toExternalForm());
         images[14] = new Image(getClass().getResource("img/poker/big.jpg").toExternalForm());
 
-        ImageView[] smallImages = new ImageView[15];
 
         for (int i = 0; i < 15; i++) {
             Image fxImage = images[i];
@@ -208,94 +247,146 @@ public class GameController {
             double scaledHeight = fxImage.getHeight() * 3 / 4;
 
             Image smallImage = new Image(fxImage.getUrl(), scaledWidth, scaledHeight, true, true);
-            ImageView imageView = new ImageView(smallImage);
-
-            smallImages[i] = imageView;
+            smallImages[i] = smallImage;
         }
 
 // 设置网格布局的行和列约束
-//        dipai_1 = new Label();
-//        dipai_2 = new Label();
-//        dipai_3 = new Label();
-//        dipai.add(dipai_1, 0, 0);
-//        dipai.add(dipai_2, 0, 1);
-//        dipai.add(dipai_3, 0, 2);
-//
-//        dipai_1.setGraphic(poker_back);
-//        dipai_2.setGraphic(poker_back);
-//        dipai_3.setGraphic(poker_back);
-//        dipai.setStyle("-fx-background-color: transparent;");
-    }
-    public void showGame(){
+        dipai_1 = new Label();
+        dipai_2 = new Label();
+        dipai_3 = new Label();
+        dipai.add(dipai_1, 0, 0);
+        dipai.add(dipai_2, 1, 0);
+        dipai.add(dipai_3, 2, 0);
 
+        dipai_1.setGraphic(new ImageView(poker_backImage));
+        dipai_2.setGraphic(new ImageView(poker_backImage));
+        dipai_3.setGraphic(new ImageView(poker_backImage));
     }
+
+    public void returnDianshu(String dianshu) throws InterruptedException {
+        qiangdizhu = "-1";
+        //notice.setText("请选择你的点数");
+        String[] str = dianshu.split("");
+        List<String> list = Arrays.asList(str);
+        ArrayList<String> arr = new ArrayList<>(list);
+        //bujiao.setContentAreaFilled(false);
+        //bujiao.setBorder(null);
+        //bujiao.setIcon(_bujiao);
+        final int[] layx = {100};
+        Platform.runLater(()->{
+            bujiao.setLayoutX(layx[0]);
+            layx[0] += 100;
+            playerShowPane.getChildren().add(bujiao);
+        });
+        if (arr.contains("1")) {
+            Platform.runLater(()->{
+                one.setLayoutX(layx[0]);
+                layx[0] += 100;
+                playerShowPane.getChildren().add(one);
+        });
+        }
+        if (arr.contains("2")) {
+            Platform.runLater(()->{
+                two.setLayoutX(layx[0]);
+                layx[0] += 100 ;
+                playerShowPane.getChildren().add(two);
+            });
+        }
+        if (arr.contains("3")) {
+            Platform.runLater(()->{
+                three.setLayoutX(layx[0]);
+                layx[0] += 100;
+                playerShowPane.getChildren().add(three);
+            });
+        }
+        while (qiangdizhu.equals("-1")){
+            sleep(10);
+        }
+        Platform.runLater(()->{
+            playerShowPane.getChildren().remove(bujiao);
+            playerShowPane.getChildren().remove(one);
+            playerShowPane.getChildren().remove(two);
+            playerShowPane.getChildren().remove(three);
+        });
+    }
+    @FXML
+    Label prevPlayerRole;
+    @FXML
+    Label nextPlayerRole;
     //加载地主和底牌图标
     public void addLord(String s){
+        System.out.println(s);
         String[] str = s.split("");
-        addIcon(dipai_1, str[1], this.smallImages);
-        addIcon(dipai_2, str[2], this.smallImages);
-        addIcon(dipai_3, str[3], this.smallImages);
-        if (str[0].equals(player1_id)) {
-            player1.setGraphic(GG_lord1);
-            this.player1_deckNum = 20;
-            this.player2_deckNum = 17;
+        Platform.runLater(()->{
+            if (str[0].equals(player1_id)) {
+                    prevPlayerRole.setText("地主");
+                    this.player1_deckNum = 20;
+                    this.player2_deckNum = 17;
+            }
+            if (str[0].equals(player2_id)) {
+                nextPlayerRole.setText("地主");
+                this.player1_deckNum = 17;
+                this.player2_deckNum = 20;
+            }
+            addIcon(dipai_1, str[1], this.smallImages);
+            addIcon(dipai_2, str[2], this.smallImages);
+            addIcon(dipai_3, str[3], this.smallImages);
+            player1_num.setText(player1_deckNum + "张");
+            player2_num.setText(player2_deckNum + "张");
         }
-        if (str[0].equals(player2_id)) {
-            player2.setGraphic(GG_lord2);
-            this.player1_deckNum = 17;
-            this.player2_deckNum = 20;
-        }
-        player1_num.setText(player1_deckNum + "张");
-        player2_num.setText(player2_deckNum + "张");
+        );
 
     }
-
+    @FXML
+    Label playerRole;
     public void addSelf(String s) {
+        System.out.println(s);
         Image lordImage = new Image(getClass().getResource("img/lord.png").toExternalForm());
         ImageView lord = new ImageView(lordImage);
-        Label l = new Label("", lord);
-        //设置底牌
-        String[] str = s.split("");
-        addIcon(dipai_1, str[0], this.smallImages);
-        addIcon(dipai_2, str[1], this.smallImages);
-        addIcon(dipai_3, str[2], this.smallImages);
-        l.setLayoutX(0);
-        l.setLayoutY(l.getLayoutY() - l.getHeight() - 50);
-
-        l.setStyle("-fx-background-color: transparent;");
-        layeredPane.getChildren().add(l);
-        layeredPane.toFront();
-
         player1_deckNum = 17;
         player2_deckNum = 17;
-        player1_num.setText(player1_deckNum + "张");
-        player2_num.setText(player2_deckNum + "张");
+        //设置底牌
+        String[] str = s.split("");
+        Platform.runLater(()->{
+            addIcon(dipai_1, str[0], this.smallImages);
+            addIcon(dipai_2, str[1], this.smallImages);
+            addIcon(dipai_3, str[2], this.smallImages);
+            playerRole.setText("地主");
+            player1_num.setText(player1_deckNum + "张");
+            player2_num.setText(player2_deckNum + "张");
+        }
+        );
     }
 
     //更新记录玩家编号
     public void refresh(String dianshu) {
-        String[] str = dianshu.split("");
-        if (this.player1_id.equals("-1")) {
-            this.player1_id = str[0];
+        Platform.runLater(()->{
+            System.out.println("refresh");
+            String[] str = dianshu.split("");
+            if (this.player1_id.equals("-1")) {
+                this.player1_id = str[0];
+                if (str[1].equals("0"))
+                    player1_num.setText("不叫");
+                else if (str[1].equals("1"))
+                    player1_num.setText("1分");
+                else if (str[1].equals("2"))
+                    player1_num.setText("2分");
+                else {
+                    player1_num.setText("3分");
+                }
+                return;
+            }
+            this.player2_id = str[0];
             if (str[1].equals("0"))
-                player1_num.setText("不叫");
+                player2_num.setText("不叫");
             else if (str[1].equals("1"))
-                player1_num.setText("1分");
+                player2_num.setText("1分");
             else if (str[1].equals("2"))
-                player1_num.setText("2分");
+                player2_num.setText("2分");
             else
-                player1_num.setText("3分");
-            return;
-        }
-        this.player2_id = str[0];
-        if (str[1].equals("0"))
-            player2_num.setText("不叫");
-        else if (str[1].equals("1"))
-            player2_num.setText("1分");
-        else if (str[1].equals("2"))
-            player2_num.setText("2分");
-        else
-            player2_num.setText("3分");
+                player2_num.setText("3分");
+        });
+
     }
 
     public void showLordWin() throws InterruptedException {
@@ -360,9 +451,11 @@ public class GameController {
     }
 
     public void printCards() {
-        for (int i = 0; i < last_haveCards; i++) {
-            layeredPane.getChildren().remove(labels[i]);
-        }
+        Platform.runLater(()->{
+            for (int i = 0; i < last_haveCards; i++) {
+                layeredPane.getChildren().remove(labels[i]);
+            }
+        });
         int num = player.getDeck().size();
         System.out.println(player.getDeck());
         this.last_haveCards = player.getDeck().size();
@@ -386,6 +479,8 @@ public class GameController {
                     if (!card.contains(finalI)) {
                         card.add(finalI);
                         labels[finalI].setTranslateY(labels[finalI].getTranslateY() - 20);
+                        System.out.println("card"+card);
+                        System.out.println("deck"+player.getDeck());
                     } else {
                         for(int m = 0; m < card.size(); m++){
                             if (card.get(m).equals(finalI)){
@@ -402,6 +497,7 @@ public class GameController {
                         chupai.setDisable(true);
                     } else {
                         for (Integer in : card) {
+                            System.out.println(in);
                             String s = player.getDeck().get(in);
                             stringBuilder.append(s);
                         }
@@ -421,9 +517,9 @@ public class GameController {
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() {
         Platform.runLater(()-> {
-                    chupai.setDisable(true);
-                    this.front.add(chupai, 0, 0);
-                    this.front.add(buchu, 1, 0);
+            chupai.setDisable(true);
+            this.front.add(chupai, 0, 0);
+            this.front.add(buchu, 1, 0);
         });
 //        t1 = new Thread(() -> {
 //            try {
@@ -460,9 +556,10 @@ public class GameController {
             pass(s);
             return;
         }
+        Platform.runLater(()->{
         for (int i = 0; i < this.last_cardNum; i++) {
-            layeredPane.getChildren().remove(playedCards[i]);
-        }
+            playerShowPane.getChildren().remove(playedCards[i]);
+        }});
         String p = str[0];
         List<String> list = Arrays.asList(s.substring(1, str.length).split(""));
         ArrayList<String> cards = new ArrayList<>(list);
@@ -473,48 +570,61 @@ public class GameController {
         System.out.println(num);//debug
         this.last_cardNum = num;
         double total_w = (num * w + 2 * w) / 3;
-        int floor = 270;
         for (int i = 0; i < 20; i++) {
             playedCards[i] = new Label();
         }
         for (int i = 0; i < num; i++) {
-            addIcon(playedCards[i], cards.get(i), this.smallImages);
-            if (p.equals("m")) {
-                playedCards[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
-                playedCards[i].setLayoutY(height / 2 - 65);
-                playedCards[i].setPrefHeight(h + 30);
-            }
-            else if (p.equals(player1_id)) {
-                playedCards[i].setLayoutX(bias + i * w / 3);
-                playedCards[i].setLayoutY(height / 2 - 65);
-                playedCards[i].setPrefHeight(h + 30);
-                player1_deckNum -= 1;
-                player1_num.setText(player1_deckNum + "张");
-            } else {
-                playedCards[i].setLayoutX(width - bias - total_w + i * w / 3);
-                playedCards[i].setLayoutY(height / 2 - 65);
-                playedCards[i].setPrefHeight(h + 30);
-                player2_deckNum -= 1;
-                player2_num.setText(player2_deckNum + "张");
-            }
-            layeredPane.getChildren().add(playedCards[i]);
-            playedCards[i].toFront();
+            addIcon(playedCards[i], cards.get(i), images);
+            playedCards[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
+            playedCards[i].setLayoutY(0);
+            playedCards[i].setPrefHeight(h + 30);
+//            if (p.equals("m")) {
+//                playedCards[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
+//                playedCards[i].setLayoutY(height / 2 - 65);
+//                playedCards[i].setPrefHeight(h + 30);
+//            }
+//            else if (p.equals(player1_id)) {
+//                playedCards[i].setLayoutX(bias + i * w / 3);
+//                playedCards[i].setLayoutY(height / 2 - 65);
+//                playedCards[i].setPrefHeight(h + 30);
+//                player1_deckNum -= 1;
+//                player1_num.setText(player1_deckNum + "张");
+//            } else {
+//                playedCards[i].setLayoutX(width - bias - total_w + i * w / 3);
+//                playedCards[i].setLayoutY(height / 2 - 65);
+//                playedCards[i].setPrefHeight(h + 30);
+//                player2_deckNum -= 1;
+//                player2_num.setText(player2_deckNum + "张");
+//            }
+            int inti = i;
+            Platform.runLater(()->{
+            playerShowPane.getChildren().add(playedCards[inti]);});
         }
-
     }
 
     public void pass(String s) throws InterruptedException{
-        Image passImage = new Image("");//过的图标
+        Image passImage = new Image(getClass().getResource("img/pass.png").toExternalForm());//过的图标
         ImageView pass = new ImageView(passImage);
-        if (s.equals(player1_id)) {
-            player1_num.setGraphic(pass);
-            sleep(1000);
-            player1_num.setGraphic(null);
-        } else if (s.equals(player2_id)) {
-            player2_num.setGraphic(pass);
-            sleep(1000);
-            player2_num.setGraphic(null);
-        }
+        Label l = new Label();
+        l.setGraphic(pass);
+        Platform.runLater(()-> {
+                    playerShowPane.getChildren().add(l);
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            playerShowPane.getChildren().remove(l);
+        });
+//        if (s.equals(player1_id)) {
+//            player1_num.setGraphic(pass);
+//            sleep(1000);
+//            player1_num.setGraphic(null);
+//        } else if (s.equals(player2_id)) {
+//            player2_num.setGraphic(pass);
+//            sleep(1000);
+//            player2_num.setGraphic(null);
+//        }
     }
 
     public void addIcon(Label label, String card, Image[] images){

@@ -158,7 +158,7 @@ public class Player {
     public Player() {
         try {
 //            String ip = "106.13.40.227";//服务器ip
-            String ip = "127.0.0.1";//本地ip
+            String ip = "192.168.204.98";//本地ip
             InetSocketAddress socketAddress = new InetSocketAddress(ip, 8888);
             this.socket.connect(socketAddress);
             System.out.println("接入成功");//前端可以忽视
@@ -200,8 +200,12 @@ public class Player {
         Thread newThread = new Thread(()->{
                 try {
                     if(gameReady()) {
-                        dealCards();
-                        gameController.printCards();
+                        do {
+                            this.isInGame = true;//游戏局内,设为true,游戏单局结束后直接到准备阶段
+                            //获取手牌
+                            dealCards();
+                        } while (!qiangdizhu());
+                        System.out.println("123456789");
                         while (true) {
                             serverMessage = in.readUTF();
                             if (serverMessage.equals("请你出牌")) {
@@ -247,7 +251,7 @@ public class Player {
                                 break;
                             } else {
                                 CompareCard.getInstance().setCompareCard(serverMessage);//记录其他玩家出牌
-                                //gameController.printPlayedCards(serverMessage);
+                                gameController.printPlayedCards(serverMessage);
                                 System.out.println(serverMessage);//前端处理其他玩家出牌,第一个为玩家序号,后面是玩家出的牌
                                 out.writeUTF("1");
                             }
@@ -358,32 +362,31 @@ public class Player {
     }
 
     public boolean qiangdizhu() throws IOException, InterruptedException {
-
+        gameController.printCards();
         System.out.println("抢地主");//前端显示抢地主
-
-//        int bujiao = 0;
-//        for (int i = 0; i < 3; i++) {
-//            serverMessage = message();
-//            if (serverMessage.equals("抢地主")) {
-//                serverMessage = in.readUTF();
-//                String s = gameController.returnDianshu(serverMessage);
-//                //前端改成按钮传入,需要设置阻塞,建议在前端方法里写入while死循环,选择了才返回,选择抢地主的点数
-//                if (s.equals("0")) {//后面的通过scanner方法读入的都需要阻塞,都建议使用while死循环
-//                    bujiao++;
-//                }
-//                out.writeUTF(s);
-//                System.out.println("你抢了" + s);//
-//            } else {
-//                gameController.refresh(serverMessage);//显示其他玩家抢的点数
-//                if (serverMessage.charAt(1) == '0') {
-//                    bujiao++;
-//                }
-//            }
-//        }
-//        if (bujiao == 3) {//三人都不叫,返回false ,重新发牌
-//            gameController.close();
-//            return false;
-//        }
+        int bujiao = 0;
+        for (int i = 0; i < 3; i++) {
+            serverMessage = message();
+            if (serverMessage.equals("抢地主")) {
+                serverMessage = in.readUTF();
+                gameController.returnDianshu(serverMessage);
+                String s = gameController.qiangdizhu;
+                //前端改成按钮传入,需要设置阻塞,建议在前端方法里写入while死循环,选择了才返回,选择抢地主的点数
+                if (s.equals("0")) {//后面的通过scanner方法读入的都需要阻塞,都建议使用while死循环
+                    bujiao++;
+                }
+                out.writeUTF(s);
+                System.out.println("你抢了" + s);//
+            } else {
+                gameController.refresh(serverMessage);//显示其他玩家抢的点数
+                if (serverMessage.charAt(1) == '0') {
+                    bujiao++;
+                }
+            }
+        }
+        if (bujiao == 3) {//三人都不叫,返回false ,重新发牌
+            return false;
+        }
         serverMessage = message();
         whoIsLord = serverMessage;//储存地主信息
         if (serverMessage.equals("you")) {
