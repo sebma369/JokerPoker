@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class Player {
     private DataInputStream in;//输入流
     private DataOutputStream out;//输出流
@@ -24,7 +26,7 @@ public class Player {
     private ArrayList<String> deck = new ArrayList<>();//自己的牌
     private String serverMessage;//服务器消息
     private boolean isLord;//自己是不是地主
-    private String whoIsLord;//谁是地主
+    public String whoIsLord = "zsj";//谁是地主
     private String state;//准备状态
     private boolean isInGame;//判断是否从游戏里出来
     private String roomInfo;//房间内玩家准备情况
@@ -32,7 +34,7 @@ public class Player {
     private String selectRoom;//玩家房间选择
 
     public static HelloApplication helloApplication = new HelloApplication();
-    public GameController gameController;
+    public GameController gameController ;
 
     public static Comparator<String> comparator = (s1, s2) -> {
         if (s1.equals("3")) {
@@ -186,12 +188,30 @@ public class Player {
         stage.show();
         //dealCards();
         gameController = fxmlLoader.getController();
+        gameController.init();
+        String[] strings = {
+                "A", "2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K"};//一副扑克牌
+        List<String> list = Arrays.asList(strings);
+        this.deck = new ArrayList<>(list);
+
+        gameController.setPlayer(this);
+
         gameController.printCards();
 
+
+        gameController.outCards();
+        String str=gameController.stringBuilder.toString();
+        //out.writeUTF(str);//str表示出的牌
+        System.out.println(str);
+        String[] s = str.split("");
+        for (String s1 : s) {
+            deck.remove(s1);
+        }
+        gameController.printCards();
         //开始出牌
 //        while (true) {
 //            serverMessage = in.readUTF();
-//            if (serverMessage.equals("请你出牌")) {
+//           if (serverMessage.equals("请你出牌")) {
 //                System.out.println("请你出牌");//前端提示玩家出牌
 //                String str;
 //                //出牌

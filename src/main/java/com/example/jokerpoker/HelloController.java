@@ -32,12 +32,10 @@ public class HelloController {
     @FXML
     private TextField textPassword;
 
+    public Player player;
+
     public void enroll(ActionEvent event) throws Exception {
         HelloApplication.enroll();
-    }
-
-    public void set(){
-        this.textPassword.setText("123");
     }
 
     public void login(ActionEvent event) throws Exception {    //登录

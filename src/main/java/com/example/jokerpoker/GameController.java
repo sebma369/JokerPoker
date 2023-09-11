@@ -3,6 +3,7 @@ package com.example.jokerpoker;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -13,14 +14,13 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
 
 public class GameController {
-    Player player;
+    public Player player;
 
     ArrayList<Integer> card = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class GameController {
     Pane layeredPane; //放手牌
 
     @FXML
-    Pane front; //按钮区域
+    GridPane front; //按钮区域
 
     //先不设定抢点机制
     Button chupai;
@@ -53,11 +53,12 @@ public class GameController {
     Image poker_backImage;
     ImageView poker_back;
     @FXML
-    Pane dipai;
+    Label nextPlayerRole;
+    @FXML
+    GridPane dipai;
     Label dipai_1;
     Label dipai_2;
     Label dipai_3;
-    Pane btn_group2;
     Font font;
     Font font2;
     private String player1_id;
@@ -66,7 +67,7 @@ public class GameController {
     private int player1_deckNum;
     private int player2_deckNum;
     int x, y, width, height;
-    private Boolean isOutCards;
+    public Boolean isOutCards;
 
     public String serverMessage;
     Image[] images;
@@ -75,13 +76,14 @@ public class GameController {
     private int last_haveCards;
     Label[] labels = new Label[20];
 
+    private final Object lock = new Object();
 
-    public void initialize(){
-
+    public void setPlayer(Player player){
+        this.player = player;
     }
 
 
-    public GameController(int x, int y, Player player){
+    public void init(){
         chupai = new Button();
         buchu = new Button();
 
@@ -91,19 +93,19 @@ public class GameController {
         ImageView GGView = new ImageView(GG);
         player1 = new Label("", GGView);
         player2 = new Label("", GGView);
-        GG_lord1Image = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        GG_lord1Image = new Image(getClass().getResource("img/GG_lord1.png").toExternalForm());
         GG_lord1 = new ImageView(GG_lord1Image);
-        GG_lord2Image = new Image(getClass().getResource("img/GG.png").toExternalForm());
-        GG_lord2 = new ImageView(GG_lord2Image);
-        chupai_btnImage = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        GG_lord2Image = new Image(getClass().getResource("img/GG_lord2.png").toExternalForm());
+         GG_lord2 = new ImageView(GG_lord2Image);
+        chupai_btnImage = new Image(getClass().getResource("img/chupai.png").toExternalForm());
         ImageView chupai_btn = new ImageView(chupai_btnImage);
-        chupai_false_btnImage = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        chupai_false_btnImage = new Image(getClass().getResource("img/chupai_false.png").toExternalForm());
         chupai_false_btn = new ImageView(chupai_false_btnImage);
-        buchu_btn = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        buchu_btn = new Image(getClass().getResource("img/buchu.png").toExternalForm());
         ImageView buchu_btnView = new ImageView(buchu_btn);
         player1_num = new Label(); //玩家手牌数
         player2_num = new Label();
-        poker_backImage = new Image(getClass().getResource("img/GG.png").toExternalForm());
+        poker_backImage = new Image(getClass().getResource("img/poker/poker_back.png").toExternalForm());
         poker_back = new ImageView(poker_backImage);
         font = new Font("宋体", Font.BOLD, 20);
         font2 = new Font("宋体", Font.BOLD, 16);
@@ -118,16 +120,15 @@ public class GameController {
         smallImages = new ImageView[15];//小图片
         last_cardNum = 0;//出牌区上次的卡牌数
         last_haveCards = 0;//手牌区上次手牌数量
-
-
-        this.player = player;
-        this.x = x;
-        this.y = y;
         buchu.setGraphic(buchu_btnView);
         chupai.setGraphic(chupai_false_btn);
         chupai.setOnAction(e->{
-            isOutCards = true;
-            front.getChildren().remove(btn_group2);
+            synchronized (lock) {
+                isOutCards = true;
+                lock.notify(); // 唤醒等待的线程
+            }
+            front.getChildren().remove(buchu);
+            front.getChildren().remove(chupai);
         });
 
         buchu.setOnAction(e -> {
@@ -140,12 +141,15 @@ public class GameController {
                     labels[i].setTranslateY(labels[i].getTranslateY() + 20);
                 }
                 card.clear();
-                isOutCards = true;
-                front.getChildren().remove(btn_group2);
+                synchronized (lock) {
+                    isOutCards = true;
+                    lock.notify(); // 唤醒等待的线程
+                }
+                front.getChildren().remove(chupai);
+                front.getChildren().remove(buchu);
             }
         });
-        btn_group2.setStyle("-fx-background-color: transparent;");
-        images[0] = new Image(getClass().getResource("img/poker/A.jpg").toExternalForm());
+        images[0] = new Image(GameController.class.getResource("img/poker/A.jpg").toExternalForm());
         images[1] = new Image(getClass().getResource("img/poker/2.jpg").toExternalForm());
         images[2] = new Image(getClass().getResource("img/poker/3.jpg").toExternalForm());
         images[3] = new Image(getClass().getResource("img/poker/4.jpg").toExternalForm());
@@ -175,30 +179,19 @@ public class GameController {
 
             smallImages[i] = imageView;
         }
-        // 创建 GridPane 布局
-        GridPane gridPane = new GridPane();
 
 // 设置网格布局的行和列约束
-        RowConstraints rowConstraints = new RowConstraints();
-        ColumnConstraints columnConstraints = new ColumnConstraints();
-
-        gridPane.getRowConstraints().add(rowConstraints);
-        for (int i = 0; i < 11; i++) {
-            gridPane.getColumnConstraints().add(columnConstraints);
-        }
-
-// 将 GridPane 添加到 Pane 中
-        dipai.getChildren().add(gridPane);
-        dipai.getChildren().add(dipai_1);
-        dipai.getChildren().add(dipai_2);
-        dipai.getChildren().add(dipai_3);
-        for(int i = 0; i < 4; i++){
-            dipai.getChildren().add(new Label());
-        }
-        dipai_1.setGraphic(poker_back);
-        dipai_2.setGraphic(poker_back);
-        dipai_3.setGraphic(poker_back);
-        dipai.setStyle("-fx-background-color: transparent;");
+//        dipai_1 = new Label();
+//        dipai_2 = new Label();
+//        dipai_3 = new Label();
+//        dipai.add(dipai_1, 0, 0);
+//        dipai.add(dipai_2, 0, 1);
+//        dipai.add(dipai_3, 0, 2);
+//
+//        dipai_1.setGraphic(poker_back);
+//        dipai_2.setGraphic(poker_back);
+//        dipai_3.setGraphic(poker_back);
+//        dipai.setStyle("-fx-background-color: transparent;");
     }
     public void showGame(){
 
@@ -328,61 +321,46 @@ public class GameController {
         sleep(3000);
     }
 
-    public String outCards() throws InterruptedException{
-        chupai.setDisable(true);
-        this.front.getChildren().add(btn_group2);
-        BorderPane borderPane = new BorderPane();
-        // 添加btn_group2到BorderPane的底部（南部）
-        borderPane.setBottom(btn_group2);
-        while (!this.isOutCards) {
-            sleep(10);
-        }
-        this.isOutCards = false;
-        StringBuilder stringBuilder = new StringBuilder();
-        if (this.card == null)
-            return "";
-        for (Integer i : this.card) {
-            stringBuilder.append(player.getDeck().get(i));
-        }
-        card.clear();
-        for(Label label: labels){
-            layeredPane.getChildren().remove(label);
-        }
-        return stringBuilder.toString();
-    }
-
     public void printCards() {
         for (int i = 0; i < last_haveCards; i++) {
             layeredPane.getChildren().remove(labels[i]);
         }
+        System.out.println(player.getDeck());
         this.last_haveCards = player.getDeck().size();
         for (int i = 0; i < 20; i++) {
             Label l = new Label();
             labels[i] = l;
         }
+
         double w = images[0].getWidth();
         double h = images[0].getHeight();
         int num = player.getDeck().size();
+
         double total_w = (num * w + 2 * w) / 3;
-        int floor = 250;
         ImageView[] pokersImage = new ImageView[15];
         for(int i = 0;i < num; i++){
             pokersImage[i] = new ImageView(images[i]);
         }
         for(int i = 0; i < num; i++) {
-
             addIcon(labels[i], player.getDeck().get(i), pokersImage);
+            labels[i].setOpacity(1.0);
             labels[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
-            labels[i].setLayoutY(height / 2 + 70);
+            labels[i].setLayoutY(20);
             labels[i].setPrefHeight(h + 30);
             layeredPane.getChildren().add(labels[i]);
             int finalI = i;
             labels[i].setOnMouseClicked(event -> {
                 if (!card.contains(finalI)) {
                     card.add(finalI);
+
                     labels[finalI].setTranslateY(labels[finalI].getTranslateY() - 20);
                 } else {
-                    card.remove(finalI);
+                    for(int m = 0; m < card.size(); m++){
+                        if (card.get(m).equals(finalI)){
+                            card.remove(m);
+                        }
+                    }
+
                     labels[finalI].setTranslateY(labels[finalI].getTranslateY() + 20);
                 }
                 CompareCard compareCard = CompareCard.getInstance();
@@ -403,11 +381,45 @@ public class GameController {
                         chupai.setDisable(false);
                     }
                 }
-            });
-
-
+                });
             }
-        }
+
+    }
+    public StringBuilder stringBuilder = new StringBuilder();
+    public void outCards() throws InterruptedException {
+
+        chupai.setDisable(true);
+        this.front.add(chupai, 0, 0);
+        this.front.add(buchu, 1, 0);
+        Thread t1 = new Thread(() -> {
+            try {
+                System.out.println("wait开始");
+                synchronized (lock) {
+                    lock.wait();
+                }
+                System.out.println("wait结束");
+                this.isOutCards = false;
+                System.out.println("asdasqwew");
+                stringBuilder  = new StringBuilder();
+                for (Integer i : this.card) {
+                    stringBuilder.append(player.getDeck().get(i));
+                }
+
+                card.clear();
+
+                // 在事件分发线程上执行界面操作
+                Platform.runLater(() -> {
+                    for(Label label: labels){
+                        layeredPane.getChildren().remove(label);
+                    }
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        t1.start();
+
+    }
     Label[] playedCards = new Label[20];
     public void printPlayedCards(String s) throws InterruptedException{
         String[] str = s.split("");

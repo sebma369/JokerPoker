@@ -104,7 +104,7 @@ public class HelloApplication extends Application {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
         });
-        primaryStage.showAndWait();
+        primaryStage.show();
     }
 
     public static void enroll() throws Exception{
