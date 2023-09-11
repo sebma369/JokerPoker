@@ -119,12 +119,8 @@ public class GameController {
         chupai_false_btn = new ImageView(chupai_false_btnImage);
         buchu_btn = new Image(getClass().getResource("img/buchu.png").toExternalForm());
         buchu_btnView = new ImageView(buchu_btn);
-        player1_num = new Label(); //玩家手牌数
-        player2_num = new Label();
         poker_backImage = new Image(getClass().getResource("img/poker/poker_back.png").toExternalForm());
         poker_back = new ImageView(poker_backImage);
-        player1_num.toFront();
-        player2_num.toFront();
         Image image0 = new Image(getClass().getResource("img/0.png").toExternalForm());
         Image image1 = new Image(getClass().getResource("img/1.png").toExternalForm());
         Image image2 = new Image(getClass().getResource("img/2.png").toExternalForm());
@@ -312,6 +308,8 @@ public class GameController {
     @FXML
     Label nextPlayerRole;
     //加载地主和底牌图标
+    @FXML
+    Label test;
     public void addLord(String s){
         System.out.println(s);
         String[] str = s.split("");
@@ -329,8 +327,9 @@ public class GameController {
             addIcon(dipai_1, str[1], this.smallImages);
             addIcon(dipai_2, str[2], this.smallImages);
             addIcon(dipai_3, str[3], this.smallImages);
-            player1_num.setText(player1_deckNum + "张");
-            player2_num.setText(player2_deckNum + "张");
+            player1_num.setText(" "+player1_deckNum + "张");
+            player2_num.setText(" "+player2_deckNum + "张");
+            System.out.println(player1_num.getText());
         }
         );
 
@@ -349,9 +348,9 @@ public class GameController {
             addIcon(dipai_1, str[0], this.smallImages);
             addIcon(dipai_2, str[1], this.smallImages);
             addIcon(dipai_3, str[2], this.smallImages);
-            playerRole.setText("地主");
             player1_num.setText(player1_deckNum + "张");
             player2_num.setText(player2_deckNum + "张");
+            playerRole.setText("地主");
         }
         );
     }
@@ -392,11 +391,10 @@ public class GameController {
         ImageView lordWin = new ImageView(lordWinImage);
         Label label = new Label("", lordWin);
 
-        label.setLayoutX(width / 2 - lordWin.getFitWidth() / 2);
-        label.setLayoutY(height / 2 - lordWin.getFitHeight() / 2);
+
         Platform.runLater(()-> {
                     layeredPane.getChildren().add(label);
-                });
+        });
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -408,14 +406,10 @@ public class GameController {
         ImageView lordLose = new ImageView(lordLoseImage);
         Label label = new Label("", lordLose);
 
-        label.setLayoutX(width / 2 - lordLose.getFitWidth() / 2);
-        label.setLayoutY(height / 2 - lordLose.getFitHeight() / 2);
         Platform.runLater(()-> {
         layeredPane.getChildren().add(label);});
 
-        //layeredPane.setLayer(label, 290);
-        //JAVAFX不能设置层级
-        sleep(3000);
+
     }
 
     public void showFarmerWin() throws InterruptedException {
@@ -423,14 +417,9 @@ public class GameController {
         ImageView farmerWin = new ImageView(farmerWinImage);
         Label label = new Label("", farmerWin);
 
-        label.setLayoutX(width / 2 - farmerWin.getFitWidth() / 2);
-        label.setLayoutY(height / 2 - farmerWin.getFitHeight() / 2);
         Platform.runLater(()-> {
         layeredPane.getChildren().add(label);});
 
-        //layeredPane.setLayer(label, 290);
-        //JAVAFX不能设置层级
-        sleep(3000);
     }
 
     public void showFarmerLose() throws InterruptedException {
@@ -438,14 +427,9 @@ public class GameController {
         ImageView farmerLose = new ImageView(farmerLoseImage);
         Label label = new Label("", farmerLose);
 
-        label.setLayoutX(width / 2 - farmerLose.getFitWidth() / 2);
-        label.setLayoutY(height / 2 - farmerLose.getFitHeight() / 2);
         Platform.runLater(()-> {
         layeredPane.getChildren().add(label);});
 
-        //layeredPane.setLayer(label, 290);
-        //JAVAFX不能设置层级
-        sleep(3000);
     }
 
     public void printCards() {
@@ -555,9 +539,9 @@ public class GameController {
             return;
         }
         Platform.runLater(()->{
-        for (int i = 0; i < this.last_cardNum; i++) {
+        for (int i = 0; i < this.last_cardNum; i++)
             playerShowPane.getChildren().remove(playedCards[i]);
-        }});
+
         String p = str[0];
         List<String> list = Arrays.asList(s.substring(1, str.length).split(""));
         ArrayList<String> cards = new ArrayList<>(list);
@@ -581,23 +565,23 @@ public class GameController {
 //                playedCards[i].setLayoutY(height / 2 - 65);
 //                playedCards[i].setPrefHeight(h + 30);
 //            }
-//            else if (p.equals(player1_id)) {
+            if (p.equals(player1_id)) {
 //                playedCards[i].setLayoutX(bias + i * w / 3);
 //                playedCards[i].setLayoutY(height / 2 - 65);
 //                playedCards[i].setPrefHeight(h + 30);
-//                player1_deckNum -= 1;
-//                player1_num.setText(player1_deckNum + "张");
-//            } else {
+                player1_deckNum -= 1;
+                player1_num.setText(player1_deckNum + "张");
+            } else {
 //                playedCards[i].setLayoutX(width - bias - total_w + i * w / 3);
 //                playedCards[i].setLayoutY(height / 2 - 65);
 //                playedCards[i].setPrefHeight(h + 30);
-//                player2_deckNum -= 1;
-//                player2_num.setText(player2_deckNum + "张");
-//            }
+                player2_deckNum -= 1;
+                player2_num.setText(player2_deckNum + "张");
+            }
             int inti = i;
-            Platform.runLater(()->{
-            playerShowPane.getChildren().add(playedCards[inti]);});
+            playerShowPane.getChildren().add(playedCards[inti]);
         }
+        });
     }
 
     public void pass(String s) throws InterruptedException{

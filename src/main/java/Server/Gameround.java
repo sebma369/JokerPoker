@@ -66,6 +66,7 @@ public class Gameround {
                 }
             }
             if (players.get(i).getPlayerDeck().isEmpty()){//如果玩家出完牌了
+                sendToAnotherTwo(i, r);//给其他玩家发送此玩家出的牌
                 sendToAll("游戏结束");//提示游戏结束
                 if (i == whoIsLord) {//如果是地主则给其他两名玩家说地主赢了
                     sendToAnotherTwoWithoutI(i, "" + i);
