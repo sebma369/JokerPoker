@@ -1,10 +1,21 @@
 package com.example.jokerpoker;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 
-public class ClientMain {
-    public static void main(String args[]) throws IOException {
-        DatagramSocketClient client = new DatagramSocketClient();
-        client.startClient(); //启动客户端
+import static java.lang.Thread.sleep;
+
+public class ClientMain extends Application {
+    public static HelloApplication helloApplication = new HelloApplication();
+    Stage stage = new Stage();
+    @Override
+    public void start(Stage stage) throws Exception {
+        //helloApplication.start(stage);
+
+        Player player = new Player();
+        player.playGame();
     }
 }
