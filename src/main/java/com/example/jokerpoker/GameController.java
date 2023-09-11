@@ -13,7 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -74,7 +73,7 @@ public class GameController {
     Image[] images;
     ImageView[] smallImages;
     private int last_cardNum;
-    private int last_haveCards = 0;
+    private int last_haveCards;
     Label[] labels = new Label[20];
 
     private final Object lock = new Object();
@@ -135,19 +134,16 @@ public class GameController {
                 for (Integer i : this.card) {
                     stringBuilder.append(player.getDeck().get(i));
                 }
-                System.out.println(card);
                 String str=stringBuilder.toString();
-                //out.writeUTF(str);//str表示出的牌
+                //Player.out.writeUTF(str);//str表示出的牌
                 System.out.println(str);
                 String[] s = str.split("");
                 for (String s1 : s) {
                     player.deck.remove(s1);
                 }
                 card.clear();
-                for (Label label : labels) {
-                    layeredPane.getChildren().remove(label);
-                }
                 printCards();
+
             }
         });
 
@@ -345,18 +341,19 @@ public class GameController {
         for (int i = 0; i < last_haveCards; i++) {
             layeredPane.getChildren().remove(labels[i]);
         }
-        int num = player.getDeck().size();
-        System.out.println("num= "+num);
         System.out.println(player.getDeck());
         this.last_haveCards = player.getDeck().size();
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < 20; i++) {
             Label l = new Label();
             labels[i] = l;
         }
+
         double w = images[0].getWidth();
         double h = images[0].getHeight();
+        int num = player.getDeck().size();
+
         double total_w = (num * w + 2 * w) / 3;
-        ImageView[] pokersImage = new ImageView[20];
+        ImageView[] pokersImage = new ImageView[15];
         for(int i = 0;i < 15; i++){
             pokersImage[i] = new ImageView(images[i]);
         }
@@ -400,7 +397,9 @@ public class GameController {
                 }
                 });
             }
+
     }
+    public Thread t1 ;
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() throws InterruptedException {
         chupai.setDisable(true);

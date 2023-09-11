@@ -45,13 +45,13 @@ public class Gameround {
         for (Player player : players){
             player.setInGame(true);//设置玩家在游戏内,在游戏结束是以便直接出现在房间里面
         }
-        do {
+        //do {
             //发牌
             dealCards();
             //抢地主
-        } while (!qiangdizhu());//抢地主,如果都为0,则重新发牌
+        //} while (!qiangdizhu());//抢地主,如果都为0,则重新发牌
         //出牌循环
-        int i = whoIsLord;//记录谁是地主,从地主开始出牌
+        int i = 1;//记录谁是地主,从地主开始出牌
         while (true) {
             //接收出的牌
             String r = sendToOne(i, "请你出牌");//提示玩家出牌
