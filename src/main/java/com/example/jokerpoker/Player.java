@@ -189,17 +189,19 @@ public class Player {
         //dealCards();
         gameController = fxmlLoader.getController();
         gameController.init();
-        String[] strings = {
-                "A", "2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K"};//一副扑克牌
-        List<String> list = Arrays.asList(strings);
-        this.deck = new ArrayList<>(list);
+//        String[] strings = {
+//                "A", "2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K"};//一副扑克牌13
+//        List<String> list = Arrays.asList(strings);
+//        this.deck = new ArrayList<>(list);
 
         gameController.setPlayer(this);
-
+        while(true) {
+            dealCards();
+            if(gameReady()) break;
+        }
         gameController.printCards();
 
-
-        gameController.outCards();
+//        gameController.outCards();
 //        Thread newThread = new Thread(()->{
 //                try {
 //                    gameController.t1.join();
@@ -209,16 +211,16 @@ public class Player {
 //                }
 //        });
 //        newThread.start();
-        System.out.println(gameController.stringBuilder);
-        String str=gameController.stringBuilder.toString();
-        //out.writeUTF(str);//str表示出的牌
-        System.out.println(str);
-        String[] s = str.split("");
-        for (String s1 : s) {
-            deck.remove(s1);
-        }
-        gameController.printCards();
-        System.out.println("next");
+//        System.out.println(gameController.stringBuilder);
+//        String str=gameController.stringBuilder.toString();
+//        //out.writeUTF(str);//str表示出的牌
+//        System.out.println(str);
+//        String[] s = str.split("");
+//        for (String s1 : s) {
+//            deck.remove(s1);
+//        }
+//        gameController.printCards();
+//        System.out.println("next");
         //gameController.t1.join();
         //开始出牌
 //        while (true) {
@@ -268,8 +270,28 @@ public class Player {
 //            }
 //        }
     }
-
-
+    public boolean gameReady() throws IOException {
+        this.isInGame = false;//退出游戏后返回准备
+        // 阶段,可以退出房间到大厅或继续准备
+        this.state = "ready";//按钮切换ready,unready,quit
+        String message;
+        while (true) {
+            message = in.readUTF();
+            if (message.startsWith("ready?")) {//例1020  0没人 1有 2准备
+                out.writeUTF(state);
+            }
+            if (message.equals("start")) {
+                out.writeUTF("start");
+                System.out.println("start");
+                return true;
+            }
+            if (message.equals("quit")) {
+                out.writeUTF("quit");
+                System.out.println("退出房间");
+                return false;
+            }
+        }
+    }
 
     public void dealCards() throws IOException {
         String str = message();//服务器传过来的开始游戏信息

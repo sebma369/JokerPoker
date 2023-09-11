@@ -135,12 +135,13 @@ public class GameController {
                     stringBuilder.append(player.getDeck().get(i));
                 }
                 String str=stringBuilder.toString();
-                //out.writeUTF(str);//str表示出的牌
+                //Player.out.writeUTF(str);//str表示出的牌
                 System.out.println(str);
                 String[] s = str.split("");
                 for (String s1 : s) {
                     player.deck.remove(s1);
                 }
+                card.clear();
                 printCards();
 
             }
@@ -353,7 +354,7 @@ public class GameController {
 
         double total_w = (num * w + 2 * w) / 3;
         ImageView[] pokersImage = new ImageView[15];
-        for(int i = 0;i < num; i++){
+        for(int i = 0;i < 15; i++){
             pokersImage[i] = new ImageView(images[i]);
         }
         for(int i = 0; i < num; i++) {
