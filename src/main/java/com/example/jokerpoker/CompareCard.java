@@ -10,8 +10,8 @@ import java.util.*;
 
  */
 public class CompareCard {//比较牌大小
-    private String player;//储存上一轮出牌的玩家序号
-    private ArrayList<String> cards;//储存的待比较的牌
+    String player;//储存上一轮出牌的玩家序号
+    ArrayList<String> cards;//储存的待比较的牌
     private static CompareCard compareCard;//单例模式
 
     public static CompareCard getInstance(){

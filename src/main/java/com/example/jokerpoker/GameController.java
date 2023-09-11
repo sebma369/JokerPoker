@@ -133,6 +133,7 @@ public class GameController {
             if(!card.isEmpty()) {
                 front.getChildren().remove(buchu);
                 front.getChildren().remove(chupai);
+                StringBuilder stringBuilder = new StringBuilder();
                 for (Integer i : this.card) {
                     stringBuilder.append(player.getDeck().get(i));
                 }
@@ -304,7 +305,9 @@ public class GameController {
 
         label.setLayoutX(width / 2 - lordWin.getFitWidth() / 2);
         label.setLayoutY(height / 2 - lordWin.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+                    layeredPane.getChildren().add(label);
+                });
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -318,7 +321,8 @@ public class GameController {
 
         label.setLayoutX(width / 2 - lordLose.getFitWidth() / 2);
         label.setLayoutY(height / 2 - lordLose.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+        layeredPane.getChildren().add(label);});
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -332,7 +336,8 @@ public class GameController {
 
         label.setLayoutX(width / 2 - farmerWin.getFitWidth() / 2);
         label.setLayoutY(height / 2 - farmerWin.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+        layeredPane.getChildren().add(label);});
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -346,7 +351,8 @@ public class GameController {
 
         label.setLayoutX(width / 2 - farmerLose.getFitWidth() / 2);
         label.setLayoutY(height / 2 - farmerLose.getFitHeight() / 2);
-        layeredPane.getChildren().add(label);
+        Platform.runLater(()-> {
+        layeredPane.getChildren().add(label);});
 
         //layeredPane.setLayer(label, 290);
         //JAVAFX不能设置层级
@@ -389,6 +395,7 @@ public class GameController {
                         labels[finalI].setTranslateY(labels[finalI].getTranslateY() + 20);
                     }
                     CompareCard compareCard = CompareCard.getInstance();
+                    System.out.println(compareCard.player+compareCard.cards);
                     StringBuilder stringBuilder = new StringBuilder();
                     if (card.size() == 0) {
                         chupai.setGraphic(chupai_false_btn);
