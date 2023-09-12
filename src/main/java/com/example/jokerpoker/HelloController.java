@@ -44,15 +44,25 @@ public class HelloController {
         String user = textUsername.getText();
         String pass = textPassword.getText();
         if (accountDAO.checkUser(user,pass) == 1) {
-            HelloApplication.login=true;
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("警告");
-            alert.setContentText("success");
-            alert.showAndWait();
-            Stage stage = (Stage) btnClose.getScene().getWindow();
-            stage.close();
-            Player p1 = new Player();
-            p1.playGame();
+            if (accountDAO.checkOnline(user)) {
+                accountDAO.updateOnline(user, 1);
+                Player p = new Player();
+                p.setUsername(user);
+                HelloApplication.login = true;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Success!");
+                alert.setContentText("登陆成功");
+                alert.showAndWait();
+                Stage stage = (Stage) btnClose.getScene().getWindow();
+                stage.close();
+                p.playGame();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("警告");
+                alert.setContentText("该账号已登录");
+                alert.setHeaderText("错误");
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("警告");

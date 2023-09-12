@@ -1,6 +1,7 @@
 package com.example.jokerpoker;
 //gameWindow
 
+import com.example.jokerpoker.dao.AccountDAO;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.stage.WindowEvent;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
 
@@ -108,7 +110,13 @@ public class GameController {
         player1_num.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent arg0) {
-
+                AccountDAO accountDAO = new AccountDAO();
+                String user = player.getUsername();
+                try {
+                    accountDAO.updateOnline(user,0);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 System.exit(0);
             }
         });
