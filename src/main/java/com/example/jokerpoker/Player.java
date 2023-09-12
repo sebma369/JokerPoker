@@ -174,13 +174,9 @@ public class Player {
     }
 
     public void playGame() throws IOException, InterruptedException {
-//        Stage newStage = new Stage();
-//        try {
-//            helloApplication.start(newStage);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        if (!HelloApplication.login) return ;
+        if (!HelloApplication.login) {
+            System.out.println("456123");
+            return ;}
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(Player.class.getResource("game-view.fxml"));
         Parent root = fxmlLoader.load();

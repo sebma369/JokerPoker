@@ -50,6 +50,8 @@ public class HelloController {
             alert.showAndWait();
             Stage stage = (Stage) btnClose.getScene().getWindow();
             stage.close();
+            Player p1 = new Player();
+            p1.playGame();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("警告");

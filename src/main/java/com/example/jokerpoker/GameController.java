@@ -2,6 +2,7 @@ package com.example.jokerpoker;
 //gameWindow
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,10 +38,6 @@ public class GameController {
 
     @FXML
     GridPane front; //按钮区域
-    @FXML
-    Pane prevPlayerShowPane;
-    @FXML
-    Pane nextPlayerShowPane;
 
     //先不设定抢点机制
     Button chupai;
@@ -107,6 +105,13 @@ public class GameController {
 
 
     public void init(){
+        player1_num.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent arg0) {
+
+                System.exit(0);
+            }
+        });
         chupai = new Button();
         buchu = new Button();
         bg = new Image(getClass().getResource("img/desk.jpg").toExternalForm()); //后面再改图片
@@ -613,6 +618,7 @@ public class GameController {
 //            player2_num.setGraphic(null);
 //        }
     }
+
 
     public void addIcon(Label label, String card, Image[] images){
         if (card.equals("A")){
