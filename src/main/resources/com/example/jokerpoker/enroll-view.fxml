@@ -45,7 +45,7 @@
                <VBox.margin>
                   <Insets bottom="15.0" left="60.0" right="60.0" top="15.0" />
                </VBox.margin></TextField>
-            <Button fx:id="btnLogin" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="154.0" text="SUBMIT" onAction="#submit">
+            <Button fx:id="btnLogin" alignment="CENTER" mnemonicParsing="false" prefHeight="64.0" prefWidth="154.0" text="SUBMIT" onAction="#close">
                <font>
                   <Font size="19.0" />
                </font>
