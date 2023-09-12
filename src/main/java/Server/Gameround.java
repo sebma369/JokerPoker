@@ -1,6 +1,9 @@
 package Server;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Gameround {
     private ArrayList<Player> players;//三个玩家
@@ -63,7 +66,8 @@ public class Gameround {
                 }
             }
             if (players.get(i).getPlayerDeck().isEmpty()){//如果玩家出完牌了
-                sendToAll("游戏结束");//提示游戏结束
+                sendToAnotherTwo(i, r);//给其他玩家发送此玩家出的牌
+                sendToAll("游戏结束");//提示游戏结束z
                 if (i == whoIsLord) {//如果是地主则给其他两名玩家说地主赢了
                     sendToAnotherTwoWithoutI(i, "" + i);
                     sendToOne(i, "you");
@@ -114,7 +118,7 @@ public class Gameround {
     //抢地主
     public boolean qiangdizhu() {
         int bujiao = 0;//都不叫,则重新发牌
-        init();//初始化抢地主点数n
+        init();//初始化抢地主点数
         for (int i = 0; i < 3; i++) {
             sendToOne(i, "抢地主");
             String s = sendToOne(i, tostring(n));

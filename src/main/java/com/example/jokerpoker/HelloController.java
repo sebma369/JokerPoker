@@ -1,10 +1,10 @@
 package com.example.jokerpoker;
 
 import com.example.jokerpoker.dao.AccountDAO;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -31,39 +31,28 @@ public class HelloController {
     private TextField textUsername;
 
     @FXML
-    private TextField textPassword;
+    private PasswordField textPassword;
 
-    @FXML
+    public Player player;
+
     public void enroll(ActionEvent event) throws Exception {
-            Stage stage = (Stage) btnEnroll.getScene().getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("enroll-view.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
+        HelloApplication.enroll();
     }
 
-    @FXML
     public void login(ActionEvent event) throws Exception {    //登录
         AccountDAO accountDAO = new AccountDAO();
         String user = textUsername.getText();
         String pass = textPassword.getText();
         if (accountDAO.checkUser(user,pass) == 1) {
-            Stage stage = (Stage) btnLogin.getScene().getWindow();
-            Parent root = null;
-            try {
-                root = FXMLLoader.load(getClass().getResource("game-view.fxml"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            HelloApplication.login=true;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("警告");
+            alert.setContentText("success");
+            alert.showAndWait();
+            Stage stage = (Stage) btnClose.getScene().getWindow();
+            stage.close();
+            Player p1 = new Player();
+            p1.playGame();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("警告");
