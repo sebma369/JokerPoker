@@ -110,9 +110,8 @@ public class GameController {
         player1_num.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent arg0) {
-                Player p = new Player();
                 AccountDAO accountDAO = new AccountDAO();
-                String user = p.getUsername();
+                String user = player.getUsername();
                 try {
                     accountDAO.updateOnline(user,0);
                 } catch (SQLException e) {
