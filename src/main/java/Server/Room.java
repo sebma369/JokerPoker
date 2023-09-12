@@ -10,11 +10,11 @@ public class Room {
     private ArrayList<Player> readyPlayer = new ArrayList<>();//已经准备了的玩家
     static int n = 3;
 
-    public void decrease(){
-        synchronized (this){
-            n--;
-        }
-    } //防止多个线程同时修改n的值
+     public void decrease(){
+         synchronized (this){
+             n--;
+         }
+     }
 
     public Room() {
         this.num = 0;

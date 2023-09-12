@@ -1,6 +1,9 @@
 package Server;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Gameround {
     private ArrayList<Player> players;//三个玩家
@@ -45,13 +48,13 @@ public class Gameround {
         for (Player player : players){
             player.setInGame(true);//设置玩家在游戏内,在游戏结束是以便直接出现在房间里面
         }
-        //do {
+        do {
             //发牌
             dealCards();
             //抢地主
-        //} while (!qiangdizhu());//抢地主,如果都为0,则重新发牌
+        } while (!qiangdizhu());//抢地主,如果都为0,则重新发牌
         //出牌循环
-        int i = 1;//记录谁是地主,从地主开始出牌
+        int i = whoIsLord;//记录谁是地主,从地主开始出牌
         while (true) {
             //接收出的牌
             String r = sendToOne(i, "请你出牌");//提示玩家出牌
@@ -63,7 +66,8 @@ public class Gameround {
                 }
             }
             if (players.get(i).getPlayerDeck().isEmpty()){//如果玩家出完牌了
-                sendToAll("游戏结束");//提示游戏结束
+                sendToAnotherTwo(i, r);//给其他玩家发送此玩家出的牌
+                sendToAll("游戏结束");//提示游戏结束z
                 if (i == whoIsLord) {//如果是地主则给其他两名玩家说地主赢了
                     sendToAnotherTwoWithoutI(i, "" + i);
                     sendToOne(i, "you");
@@ -113,31 +117,29 @@ public class Gameround {
      */
     //抢地主
     public boolean qiangdizhu() {
-//        int bujiao = 0;//都不叫,则重新发牌
-//        init();//初始化抢地主点数n
-//        for (int i = 0; i < 3; i++) {
-//            sendToOne(i, "抢地主");
-//            String s = sendToOne(i, tostring(n));
-//            players.get(i).setQiangdizhu(Integer.parseInt(s));
-//            if (s.equals("0")) {
-//                bujiao++;
-//            }else {
-//                n.remove(s);
-//            }
-//            sendToAnotherTwo(i, s);//给其他玩家发送此玩家抢的点数
-//        }
-//        if (bujiao == 3){
-//            System.out.println("重新洗牌");
-//            return false;
-//        }
-//        //找出地主
-//        for (int i = 1; i < 3; i++) {
-//            if (players.get(i).getQiangdizhu() > players.get(whoIsLord).getQiangdizhu()) {
-//                whoIsLord = i;//i是地主
-//            }
-//        }
-
-        whoIsLord = 1;
+        int bujiao = 0;//都不叫,则重新发牌
+        init();//初始化抢地主点数
+        for (int i = 0; i < 3; i++) {
+            sendToOne(i, "抢地主");
+            String s = sendToOne(i, tostring(n));
+            players.get(i).setQiangdizhu(Integer.parseInt(s));
+            if (s.equals("0")) {
+                bujiao++;
+            }else {
+                n.remove(s);
+            }
+            sendToAnotherTwo(i, s);//给其他玩家发送此玩家抢的点数
+        }
+        if (bujiao == 3){
+            System.out.println("重新洗牌");
+            return false;
+        }
+        //找出地主
+        for (int i = 1; i < 3; i++) {
+            if (players.get(i).getQiangdizhu() > players.get(whoIsLord).getQiangdizhu()) {
+                whoIsLord = i;//i是地主
+            }
+        }
         for (int i = 0; i < 3; i++) {
             if (i == whoIsLord) {
                 sendToOne(i, "you");
