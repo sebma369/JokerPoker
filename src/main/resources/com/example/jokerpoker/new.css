@@ -67,6 +67,17 @@
     -fx-border-color:rgb(78,161,239);
 }
 
+.password-field{
+    -fx-text-fill: rgb(206, 209, 212);
+    -fx-background-color: null;
+    -fx-border-color: rgb(206, 209, 212);
+    -fx-border-radius: 28px;
+    -fx-border-width: 2px;
+}
+.password-field:hover{
+    -fx-border-color:rgb(78,161,239);
+}
+
 #btnEnroll{
     -fx-border-width: 0px;
     -fx-background-color: null;

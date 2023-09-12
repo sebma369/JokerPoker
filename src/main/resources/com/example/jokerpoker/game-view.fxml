@@ -6,17 +6,18 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="645.0" prefWidth="1020.0" stylesheets="@room.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.jokerpoker.GameController">
+<AnchorPane prefHeight="559.0" prefWidth="1002.0" stylesheets="@room.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.jokerpoker.GameController">
    <children>
-      <VBox prefHeight="709.0" prefWidth="1200.0">
+      <VBox prefHeight="559.0" prefWidth="1002.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="183.0" prefWidth="1200.0">
+            <HBox prefHeight="350.0" prefWidth="1002.0">
                <children>
-                  <GridPane fx:id="dipai" alignment="CENTER" prefHeight="124.0" prefWidth="392.0">
+                  <Pane prefHeight="133.0" prefWidth="346.0" />
+                  <GridPane fx:id="dipai" alignment="CENTER" prefHeight="133.0" prefWidth="324.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="124.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="134.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="134.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="110.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="186.0" minWidth="10.0" prefWidth="111.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="110.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -24,16 +25,16 @@
                   </GridPane>
                </children>
             </HBox>
-            <HBox prefHeight="208.0" prefWidth="1200.0">
+            <HBox prefHeight="350.0" prefWidth="1002.0">
                <children>
                   <!-- 上游玩家pane -->
-                  <Pane fx:id="prevPlayerPane" prefHeight="162.0" prefWidth="592.0">
+                  <Pane fx:id="prevPlayerPane" prefHeight="134.0" prefWidth="501.0">
                      <children>
                         <!-- 上游玩家角色 -->
-                        <Label fx:id="prevPlayerRole" layoutY="110" />
+                        <Label fx:id="prevPlayerRole" layoutY="102.0" />
          
-                        <!-- 上游玩家头像 -->
-                        <ImageView layoutX="60">
+                              <!-- 上游玩家头像 -->
+                        <ImageView>
             <image>
                               <Image url="@bg/close.png" />
             </image>
@@ -46,33 +47,19 @@
                            </clip>
                         </ImageView>
          
-                        <Pane fx:id="prevPlayerPokersPane" layoutX="180" layoutY="20" styleClass="rearPoker" visible="false">
-            <children>
-                              <Label layoutX="15" layoutY="18" styleClass="pokerCount">0</Label>
-            </children>
-                        </Pane>
-         
-                        <Pane fx:id="prevPlayerShowPane" layoutX="240">
-            <children>
-                              <!-- 倒计时显示框 -->
-                              <Label layoutY="35" styleClass="timer" visible="false">25</Label>
-            
-                              <!-- 提示pane -->
-                              <Label layoutY="35" styleClass="tips" visible="false" />
-            </children>
-                        </Pane>
-                        <Label fx:id="player1_num" layoutX="59.0" layoutY="105.0" prefHeight="36.0" prefWidth="88.0" />
+                              <Pane fx:id="prevPlayerShowPane" layoutX="121.0" layoutY="-3.0" prefWidth="346.0" />
+                        <Label fx:id="player1_num" layoutX="50.0" layoutY="101.0" prefHeight="36.0" prefWidth="88.0" />
                      </children>
                   </Pane>
       
-                  <!-- 下游玩家pane -->
+                        <!-- 下游玩家pane -->
                   <Pane fx:id="nextPlayerPane">
          <children>
                         <!-- 下游玩家角色 -->
-                        <Label fx:id="nextPlayerRole" layoutX="529.0" layoutY="114.0" />
+                        <Label fx:id="nextPlayerRole" layoutX="451.0" layoutY="99.0" />
          
-                        <!-- 下游玩家头像 -->
-                        <ImageView layoutX="490">
+                              <!-- 下游玩家头像 -->
+                        <ImageView layoutX="401.0">
             <image>
                               <Image backgroundLoading="true" url="@bg/close.png" />
             </image>
@@ -85,54 +72,39 @@
                            </clip>
                         </ImageView>
          
-                        <Pane fx:id="nextPlayerPokersPane" layoutX="380" layoutY="20" styleClass="rearPoker" visible="false">
-            <children>
-                              <Label layoutX="15" layoutY="18" styleClass="pokerCount">0</Label>
-            </children>
-                        </Pane>
-         
-                        <Pane fx:id="nextPlayerShowPane" layoutX="-1.0">
-            <children>
-                              <!-- 倒计时显示框 -->
-                              <Label layoutX="315" layoutY="35" styleClass="timer" visible="false" />
-            
-                              <!-- 提示pane -->
-                              <Label layoutX="305" layoutY="35" styleClass="tips" visible="false">不出</Label>
-            </children>
-                        </Pane>
-                        <Label fx:id="player2_num" layoutX="431.0" layoutY="109.0" prefHeight="36.0" prefWidth="88.0" />
+                              <Pane fx:id="nextPlayerShowPane" layoutX="-1.0" />
+                        <Label fx:id="player2_num" layoutX="363.0" layoutY="98.0" prefHeight="36.0" prefWidth="88.0" />
          </children>
                   </Pane>
                </children>
             </HBox>
             <!-- 当前玩家pane -->
-            <Pane fx:id="playerPane" prefHeight="391.0" prefWidth="1200.0">
+            <Pane fx:id="playerPane" prefHeight="511.0" prefWidth="1002.0">
                <children>
-                  <!-- 出牌按钮 -->
-                  <Button fx:id="submitButton" layoutX="555" layoutY="130" visible="false">出牌</Button>
-                  <!-- 不出牌按钮 -->
-                  <Button fx:id="passButton" layoutX="655" layoutY="130" visible="false">不出</Button>
       
-                                       <Pane fx:id="playerShowPane" layoutX="200" />
+                                             <Pane fx:id="playerShowPane" layoutX="89.0">
+                     <children>
+                        <GridPane fx:id="front" layoutX="294.0" layoutY="88.0" prefHeight="48.0" prefWidth="234.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </Pane>
       
-                                       <!-- 当前玩家角色 -->
-                  <Label fx:id="playerRole" layoutX="25" layoutY="315" />
-                  <Label fx:id="playerNickname" layoutX="75" layoutY="315" />
+                                             <!-- 当前玩家角色 -->
+                  <Label fx:id="playerRole" layoutY="260.0" />
+                  <Label fx:id="playerNickname" layoutX="50.0" layoutY="261.0" />
       
-                                       <!-- 牌显示pane -->
-                  <Pane fx:id="layeredPane" layoutX="200.0" layoutY="195.0" prefHeight="148.0" styleClass="pokers" />
-                  <GridPane fx:id="front" layoutX="483.0" layoutY="139.0" prefHeight="48.0" prefWidth="234.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                  </GridPane>
+                                             <!-- 牌显示pane -->
+                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="114.0" prefHeight="148.0" styleClass="pokers" />
             
-                                             <!-- 当前玩家头像 -->
-                  <ImageView layoutX="44.0" layoutY="205.0">
+                                                   <!-- 当前玩家头像 -->
+                  <ImageView layoutY="154.0">
             <image>
                         <Image backgroundLoading="true" url="@bg/close.png" />
             </image>

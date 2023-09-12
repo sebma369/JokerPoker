@@ -4,6 +4,9 @@
     -fx-opacity: 0.8;
 }
 
+.root{
+    -fx-background-image: url("img/desk.jpg");
+}
 #waitingTips,
 #winnerInfo {
     -fx-font-size: 20;

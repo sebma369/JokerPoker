@@ -75,6 +75,7 @@ public class GameController {
     Label dipai_3;
     Font font;
     Font font2;
+
     private String player1_id;
     private String player2_id;
 
@@ -85,7 +86,6 @@ public class GameController {
 
     public String serverMessage;
     Image[] images;
-    Image[] smallImages;
     private int last_cardNum = 0;
     private int last_haveCards = 0;
     Label[] labels = new Label[20];
@@ -170,7 +170,6 @@ public class GameController {
         height = 450;
         isOutCards = false;
         images = new Image[15];//卡牌图片
-        smallImages = new Image[15];//小图片
         buchu.setGraphic(buchu_btnView);
         chupai.setGraphic(chupai_false_btn);
         chupai.setOnAction(e->{
@@ -241,18 +240,6 @@ public class GameController {
         images[12] = new Image(getClass().getResource("img/poker/K.jpg").toExternalForm());
         images[13] = new Image(getClass().getResource("img/poker/small.jpg").toExternalForm());
         images[14] = new Image(getClass().getResource("img/poker/big.jpg").toExternalForm());
-
-
-        for (int i = 0; i < 15; i++) {
-            Image fxImage = images[i];
-
-            // 创建缩小的图像
-            double scaledWidth = fxImage.getWidth() * 3 / 4;
-            double scaledHeight = fxImage.getHeight() * 3 / 4;
-
-            Image smallImage = new Image(fxImage.getUrl(), scaledWidth, scaledHeight, true, true);
-            smallImages[i] = smallImage;
-        }
 
 // 设置网格布局的行和列约束
         dipai_1 = new Label();
@@ -334,9 +321,9 @@ public class GameController {
                 this.player1_deckNum = 17;
                 this.player2_deckNum = 20;
             }
-            addIcon(dipai_1, str[1], this.smallImages);
-            addIcon(dipai_2, str[2], this.smallImages);
-            addIcon(dipai_3, str[3], this.smallImages);
+            addIcon(dipai_1, str[1], images);
+            addIcon(dipai_2, str[2], images);
+            addIcon(dipai_3, str[3], images);
             player1_num.setText(" "+player1_deckNum + "张");
             player2_num.setText(" "+player2_deckNum + "张");
             System.out.println(player1_num.getText());
@@ -355,9 +342,9 @@ public class GameController {
         //设置底牌
         String[] str = s.split("");
         Platform.runLater(()->{
-            addIcon(dipai_1, str[0], this.smallImages);
-            addIcon(dipai_2, str[1], this.smallImages);
-            addIcon(dipai_3, str[2], this.smallImages);
+            addIcon(dipai_1, str[0], images);
+            addIcon(dipai_2, str[1], images);
+            addIcon(dipai_3, str[2], images);
             player1_num.setText(player1_deckNum + "张");
             player2_num.setText(player2_deckNum + "张");
             playerRole.setText("地主");

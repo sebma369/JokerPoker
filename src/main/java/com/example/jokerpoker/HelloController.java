@@ -4,6 +4,7 @@ import com.example.jokerpoker.dao.AccountDAO;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -30,7 +31,7 @@ public class HelloController {
     private TextField textUsername;
 
     @FXML
-    private TextField textPassword;
+    private PasswordField textPassword;
 
     public Player player;
 
