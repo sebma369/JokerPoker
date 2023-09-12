@@ -22,6 +22,13 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class Player {
+    public String username;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getUsername() {
+        return username;
+    }
     private DataInputStream in;//输入流
     DataOutputStream out;//输出流
     private Socket socket = new Socket();//客户端的套接字
