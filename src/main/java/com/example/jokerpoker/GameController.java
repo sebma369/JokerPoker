@@ -113,8 +113,11 @@ public class GameController {
                 Player p = new Player();
                 AccountDAO accountDAO = new AccountDAO();
                 String user = p.getUsername();
-                System.out.println(p.getUsername());
-//                accountDAO.updateOnline(user,0);
+                try {
+                    accountDAO.updateOnline(user,0);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 System.exit(0);
             }
         });

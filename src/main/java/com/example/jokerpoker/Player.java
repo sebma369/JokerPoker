@@ -22,7 +22,7 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class Player {
-    public String username;
+    public static String username;
     public void setUsername(String username) {
         this.username = username;
     }
