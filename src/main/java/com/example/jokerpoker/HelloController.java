@@ -46,8 +46,6 @@ public class HelloController {
         if (accountDAO.checkUser(user,pass) == 1) {
             if (accountDAO.checkOnline(user)) {
                 accountDAO.updateOnline(user, 1);
-                Player p = new Player();
-                p.setUsername(user);
                 HelloApplication.login = true;
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success!");
@@ -55,6 +53,8 @@ public class HelloController {
                 alert.showAndWait();
                 Stage stage = (Stage) btnClose.getScene().getWindow();
                 stage.close();
+                Player p = new Player();
+                p.setUsername(user);
                 p.playGame();
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

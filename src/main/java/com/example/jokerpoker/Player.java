@@ -22,7 +22,7 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class Player {
-    public String username;
+    private String username;
     public void setUsername(String username) {
         this.username = username;
     }
@@ -37,7 +37,7 @@ public class Player {
     private boolean isLord;//自己是不是地主
     public String whoIsLord = "zsj";//谁是地主
     String state;//准备状态
-    private boolean isInGame;//判断是否从游戏里出来
+    boolean isInGame;//判断是否从游戏里出来
     private String roomInfo;//房间内玩家准备情况
     private String roomNum;//大厅里房间人数情况
     private String selectRoom;//玩家房间选择
@@ -249,63 +249,6 @@ public class Player {
         });
         newThread.start();
 
-//        System.out.println(gameController.stringBuilder);
-//        String str=gameController.stringBuilder.toString();
-//        //out.writeUTF(str);//str表示出的牌
-//        System.out.println(str);
-//        String[] s = str.split("");
-//        for (String s1 : s) {
-//            deck.remove(s1);
-//        }
-//        gameController.printCards();
-//        System.out.println("next");
-        //开始出牌
-//        while (true) {
-//            serverMessage = in.readUTF();
-//           if (serverMessage.equals("请你出牌")) {
-//                System.out.println("请你出牌");//前端提示玩家出牌
-//                String str;
-//                //出牌
-//                str = gameController.outCards();
-//                out.writeUTF(str);//str表示出的牌,
-//                String[] s = str.split("");
-//                for (String s1 : s) {
-//                    deck.remove(s1);
-//                }
-//                gameController.printCards();
-//                System.out.println("你出了" + str + "牌");//前端显示玩家出的牌
-//                gameController.printPlayedCards("m" + str);//显示出牌
-//               // CompareCard.getInstance().setCompareCard("m" + str);//出牌记录下来
-//                System.out.println("你现在的牌为" + deck.toString());
-//            } else if (serverMessage.equals("游戏结束")) {//服务器返回结束信号
-//                out.writeUTF("1");
-//                serverMessage = message();
-//                if (serverMessage.equals(whoIsLord)) {
-//                    if (isLord) {
-//                        System.out.println("地主赢了");//前端
-//                        //gameWindow.showLordWin();
-//                    } else {
-//                        System.out.println("农民输了");
-//                        //gameWindow.showFarmerLose();
-//                    }
-//                } else {
-//                    if (isLord) {
-//                        System.out.println("地主输了");
-//                        //gameController.showLordLose();
-//                    } else {
-//                        System.out.println("农民赢了");
-//                        //gameController.showFarmerWin();
-//                    }
-//                }
-//                gameController.close();
-//                break;
-//            } else {
-//                //CompareCard.getInstance().setCompareCard(serverMessage);//记录其他玩家出牌
-//                gameController.printPlayedCards(serverMessage);
-//                System.out.println(serverMessage);//前端处理其他玩家出牌,第一个为玩家序号,后面是玩家出的牌
-//                out.writeUTF("1");
-//            }
-//        }
     }
     public boolean gameReady() throws IOException {
         System.out.println("gameready");
@@ -317,6 +260,13 @@ public class Player {
         while (true) {
             message = in.readUTF();
             if (message.startsWith("ready?")) {//例1020  0没人 1有 2准备
+                String[] s = message.split("\\?");
+                //String[] str = s[1].split("");
+                if (!s[1].equals(this.roomInfo)) {//0:没人,1:进房间,2:已准备
+                    System.out.println(s[1]);//前端,更新玩家准备情况
+                    gameController.refreshImage(s[1]);
+                    this.roomInfo = s[1];
+                }
                 out.writeUTF(state);
             }
             if (message.equals("start")) {

@@ -29,7 +29,6 @@ public class Player {
     public boolean isInGame() {
         return isInGame;
     }
-
     public Player(Socket socket){
         try {
             out = new DataOutputStream(socket.getOutputStream());
@@ -104,6 +103,8 @@ public class Player {
     public ArrayList<String> getPlayerDeck() {
         return playerDeck;
     }
+
+    public void addPlayerDeck(String s){playerDeck.add(s);}
 
     public int getQiangdizhu() {
         return qiangdizhu;

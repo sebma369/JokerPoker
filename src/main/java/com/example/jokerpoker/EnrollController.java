@@ -62,14 +62,11 @@ public class EnrollController {
                     accountDAO.saveUser(user, pass);
                     //注册成功
                     Stage stage = (Stage) btnLogin.getScene().getWindow();
-                    Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("hello-view.fxml"));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("账号注册");
+                    alert.setContentText("账号注册成功");
+                    alert.setHeaderText("成功");
+                    alert.showAndWait();
                     stage.show();
                 }
             } else {

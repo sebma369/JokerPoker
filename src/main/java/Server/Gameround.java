@@ -54,6 +54,9 @@ public class Gameround {
             //抢地主
         } while (!qiangdizhu());//抢地主,如果都为0,则重新发牌
         //出牌循环
+        System.out.println(players.get(0).getPlayerDeck());
+        System.out.println(players.get(1).getPlayerDeck());
+        System.out.println(players.get(2).getPlayerDeck());
         int i = whoIsLord;//记录谁是地主,从地主开始出牌
         System.out.println(i);
         while (true) {
@@ -93,11 +96,11 @@ public class Gameround {
     //发牌
     public void dealCards() {
         Collections.shuffle(setCards);//打乱牌组
-        List<String> deck = setCards.subList(0, 1);//发牌,一人17张
+        List<String> deck = setCards.subList(0, 17);//发牌,一人17张
         players.get(0).setPlayerDeck(new ArrayList<>(deck));
-        deck = setCards.subList(1, 3);
+        deck = setCards.subList(17, 34);
         players.get(1).setPlayerDeck(new ArrayList<>(deck));
-        deck = setCards.subList(4, 5);
+        deck = setCards.subList(34, 51);
         players.get(2).setPlayerDeck(new ArrayList<>(deck));
         deck = setCards.subList(51, 54);
         remain = new ArrayList<>(deck);//3张地主牌
@@ -147,6 +150,9 @@ public class Gameround {
                 sendToOne(i, remain.get(0));//给地主三张多的牌
                 sendToOne(i, remain.get(1));
                 sendToOne(i, remain.get(2));
+                players.get(i).addPlayerDeck(remain.get(0));
+                players.get(i).addPlayerDeck(remain.get(1));
+                players.get(i).addPlayerDeck(remain.get(2));
             } else {
                 sendToOne(i, "" + whoIsLord + this.remain.get(0)+this.remain.get(1)+this.remain.get(2));//给其他玩家说地主是谁和地主牌
             }

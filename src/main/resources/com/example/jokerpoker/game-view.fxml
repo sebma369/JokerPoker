@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -31,49 +32,61 @@
                   <Pane fx:id="prevPlayerPane" prefHeight="134.0" prefWidth="501.0">
                      <children>
                         <!-- 上游玩家角色 -->
-                        <Label fx:id="prevPlayerRole" layoutY="102.0" />
-         
+                        <Label fx:id="prevPlayerRole" layoutY="102.0" prefHeight="33.0" prefWidth="62.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font></Label>
+
                               <!-- 上游玩家头像 -->
-                        <ImageView>
+                        <ImageView fx:id="Player1ImageView" layoutY="-2.0">
             <image>
                               <Image url="@bg/close.png" />
             </image>
                            <fitWidth>100</fitWidth>
-                           <fitHeight>100</fitHeight>
+                           <fitHeight>102.0</fitHeight>
                            <clip>
                               <Circle centerX="50" centerY="50" fill="aqua">
                                  <radius>50</radius>
                               </Circle>
                            </clip>
                         </ImageView>
-         
-                              <Pane fx:id="prevPlayerShowPane" layoutX="121.0" layoutY="-3.0" prefWidth="346.0" />
-                        <Label fx:id="player1_num" layoutX="50.0" layoutY="101.0" prefHeight="36.0" prefWidth="88.0" />
+
+                              <Pane fx:id="prevPlayerShowPane" layoutX="143.0" layoutY="-3.0" prefHeight="141.0" prefWidth="359.0" />
+                        <Label fx:id="player1_num" layoutX="60.0" layoutY="102.0" prefHeight="33.0" prefWidth="81.0">
+                           <font>
+                              <Font size="25.0" />
+                           </font></Label>
                      </children>
                   </Pane>
-      
+
                         <!-- 下游玩家pane -->
                   <Pane fx:id="nextPlayerPane">
          <children>
                         <!-- 下游玩家角色 -->
-                        <Label fx:id="nextPlayerRole" layoutX="451.0" layoutY="99.0" />
-         
+                        <Label fx:id="nextPlayerRole" layoutX="437.0" layoutY="99.0" prefHeight="33.0" prefWidth="62.0">
+                           <font>
+                              <Font size="21.0" />
+                           </font></Label>
+
                               <!-- 下游玩家头像 -->
-                        <ImageView layoutX="401.0">
+                        <ImageView fx:id="Player2ImageView" layoutX="401.0" layoutY="-2.0">
             <image>
                               <Image backgroundLoading="true" url="@bg/close.png" />
             </image>
                            <fitWidth>100</fitWidth>
-                           <fitHeight>100</fitHeight>
+                           <fitHeight>102.0</fitHeight>
                            <clip>
                               <Circle centerX="50" centerY="50" fill="aqua">
                                  <radius>50</radius>
                               </Circle>
                            </clip>
                         </ImageView>
-         
-                              <Pane fx:id="nextPlayerShowPane" layoutX="-1.0" />
-                        <Label fx:id="player2_num" layoutX="363.0" layoutY="98.0" prefHeight="36.0" prefWidth="88.0" />
+
+                              <Pane fx:id="nextPlayerShowPane" layoutX="-1.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="133.0" prefWidth="368.0" />
+                        <Label fx:id="player2_num" layoutX="351.0" layoutY="96.0" prefHeight="26.0" prefWidth="88.0">
+                           <font>
+                              <Font size="25.0" />
+                           </font></Label>
          </children>
                   </Pane>
                </children>
@@ -81,23 +94,26 @@
             <!-- 当前玩家pane -->
             <Pane fx:id="playerPane" prefHeight="511.0" prefWidth="1002.0">
                <children>
-      
-                                             <Pane fx:id="playerShowPane" layoutX="233.0" prefHeight="158.0" prefWidth="490.0" />
-      
+
+                                             <Pane fx:id="playerShowPane" layoutX="249.0" prefHeight="158.0" prefWidth="490.0" />
+
                                              <!-- 当前玩家角色 -->
-                  <Label fx:id="playerRole" layoutY="260.0" />
-                  <Label fx:id="playerNickname" layoutX="50.0" layoutY="261.0" />
-      
+                  <Label fx:id="playerRole" layoutY="260.0" prefHeight="33.0" prefWidth="62.0">
+                     <font>
+                        <Font size="21.0" />
+                     </font></Label>
+                  <Label fx:id="playerNickname" layoutX="62.0" layoutY="260.0" prefHeight="33.0" prefWidth="94.0" />
+
                                              <!-- 牌显示pane -->
-                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="140.0" prefHeight="152.0" styleClass="pokers" />
-            
+                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="140.0" prefHeight="152.0" prefWidth="766.0" styleClass="pokers" />
+
                                                    <!-- 当前玩家头像 -->
-                  <ImageView layoutY="154.0">
+                  <ImageView fx:id="PlayerImgView" layoutY="152.0">
             <image>
                         <Image backgroundLoading="true" url="@bg/close.png" />
             </image>
                      <fitWidth>100</fitWidth>
-                     <fitHeight>100</fitHeight>
+                     <fitHeight>102.0</fitHeight>
                      <clip>
                         <Circle centerX="50" centerY="50" fill="aqua">
                            <radius>50</radius>

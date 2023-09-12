@@ -38,6 +38,13 @@ public class GameController {
     @FXML
     Pane layeredPane; //放手牌
 
+    @FXML
+    ImageView Player1ImageView;
+    @FXML
+    ImageView Player2ImageView;
+    @FXML
+    ImageView PlayerImgView;
+
     //先不设定抢点机制
     Button chupai;
     Button buchu;
@@ -81,7 +88,6 @@ public class GameController {
     int x, y, width, height;
     public Boolean isOutCards;
 
-    public String serverMessage;
     Image[] images;
     private int last_cardNum = 0;
     private int last_haveCards = 0;
@@ -97,9 +103,36 @@ public class GameController {
     ImageView unreadyView = new ImageView(new Image(getClass().getResource("img/unready.png").toExternalForm()));
     @FXML
     Pane readyPane;
+    @FXML
+    Label playerNickname;
 
     public void setPlayer(Player player){
         this.player = player;
+    }
+    public void refreshImage(String s){
+            if(s.charAt(1)=='0'){
+                System.out.println("Player1 isn't in room");
+                Player1ImageView.setImage(new Image(getClass().getResource("bg/close.png").toExternalForm()));
+            }
+            else if(s.charAt(1)=='1') {
+                Player1ImageView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
+                System.out.println("Player1 connected");
+            }
+            else if(s.charAt(1)=='2'){
+                Player1ImageView.setImage(new Image(getClass().getResource("img/GG_ready1.png").toExternalForm()));
+                System.out.println("Player1 is ready");
+            }
+            if(s.charAt(3)=='0'){
+                Player1ImageView.setImage(new Image(getClass().getResource("bg/close.png").toExternalForm()));
+            }
+            else if(s.charAt(3)=='1'){
+                Player2ImageView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
+                System.out.println("Player2 connected");
+            }
+            else if(s.charAt(3)=='2'){
+                Player2ImageView.setImage(new Image(getClass().getResource("img/GG_ready2.png").toExternalForm()));
+                System.out.println("Player2 is ready");
+            }
     }
 
 
@@ -107,6 +140,8 @@ public class GameController {
         player1_num.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent arg0) {
+                player.isInGame=false;
+                player.state="quit";
                 AccountDAO accountDAO = new AccountDAO();
                 String user = player.getUsername();
                 try {
@@ -117,28 +152,39 @@ public class GameController {
                 System.exit(0);
             }
         });
+        Platform.runLater(()->{
+            playerNickname.setText(player.getUsername());
+        });
+        PlayerImgView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
         ready.setLayoutX(100);
         ready.setLayoutY(20);
         ready.setGraphic(readyView);
         ready.setBackground(null);
         ready.setOnMouseClicked(mouseEvent -> {
-            if(!layeredPane.getChildren().isEmpty()) {
                 Platform.runLater(()->{
+                    playerRole.setText("");
+                    prevPlayerRole.setText("");
+                    nextPlayerRole.setText("");
+                    player1_num.setText("");
+                    player2_num.setText("");
                     layeredPane.getChildren().clear();
                     playerShowPane.getChildren().clear();
+                    prevPlayerShowPane.getChildren().clear();
+                    nextPlayerShowPane.getChildren().clear();
                     dipai_1.setGraphic(new ImageView(poker_backImage));
                     dipai_2.setGraphic(new ImageView(poker_backImage));
                     dipai_3.setGraphic(new ImageView(poker_backImage));
                     card.clear();
                 });
-            }
             if(player.state.equals("unready")){
                 player.state="ready";
                 ready.setGraphic(unreadyView);
+                PlayerImgView.setImage(new Image(getClass().getResource("img/GG_ready.png").toExternalForm()));
             }
             else{
                 player.state="unready";
                 ready.setGraphic(readyView);
+                PlayerImgView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
             }
         });
         chupai = new Button();
@@ -222,6 +268,11 @@ public class GameController {
                 try {
                     player.out.writeUTF(str);//str表示出的牌
                 } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    printPlayedCards("m"+str);
+                } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
                 System.out.println(str);
@@ -351,11 +402,15 @@ public class GameController {
         Platform.runLater(()->{
             if (str[0].equals(player1_id)) {
                     prevPlayerRole.setText("地主");
+                    nextPlayerRole.setText("农民");
+                    playerRole.setText("农民");
                     this.player1_deckNum = 20;
                     this.player2_deckNum = 17;
             }
             if (str[0].equals(player2_id)) {
                 nextPlayerRole.setText("地主");
+                prevPlayerRole.setText("农民");
+                playerRole.setText("农民");
                 this.player1_deckNum = 17;
                 this.player2_deckNum = 20;
             }
@@ -386,6 +441,8 @@ public class GameController {
             player1_num.setText(player1_deckNum + "张");
             player2_num.setText(player2_deckNum + "张");
             playerRole.setText("地主");
+            prevPlayerRole.setText("农民");
+            nextPlayerRole.setText("农民");
         }
         );
     }
@@ -473,7 +530,6 @@ public class GameController {
             for (int i = 0; i < last_haveCards; i++) {
                 layeredPane.getChildren().remove(labels[i]);
             }
-
         int num = player.getDeck().size();
         this.last_haveCards = player.getDeck().size();
         for (int i = 0; i < 20; i++) {
@@ -487,7 +543,7 @@ public class GameController {
         for(int i = 0; i < num; i++) {
             addIcon(labels[i], player.getDeck().get(i), images);
             labels[i].setOpacity(1.0);
-            labels[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
+            labels[i].setLayoutX(layeredPane.getWidth()/2 - total_w / 2 + i * w / 3);
             labels[i].setLayoutY(20);
             labels[i].setPrefHeight(h + 30);
             int finalI = i;
@@ -533,7 +589,6 @@ public class GameController {
     }
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() {
-
         Platform.runLater(()-> {
             chupai.setDisable(true);
             playerShowPane.getChildren().add(chupai);
@@ -549,48 +604,40 @@ public class GameController {
             return;
         }
         Platform.runLater(()->{
-        for (int i = 0; i < this.last_cardNum; i++)
-            playerShowPane.getChildren().remove(playedCards[i]);
-
-        String p = str[0];
-        List<String> list = Arrays.asList(s.substring(1, str.length).split(""));
-        ArrayList<String> cards = new ArrayList<>(list);
-        int bias = 130;
-        double w = images[0].getWidth() * 3 / 4;
-        double h = images[0].getWidth() * 3 / 4;
-        int num = cards.size();
-        System.out.println(num);//debug
-        this.last_cardNum = num;
-        double total_w = (num * w + 2 * w) / 3;
-        for (int i = 0; i < 20; i++) {
-            playedCards[i] = new Label();
-        }
-        for (int i = 0; i < num; i++) {
-            addIcon(playedCards[i], cards.get(i), images);
-            playedCards[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
-            playedCards[i].setLayoutY(0);
-            playedCards[i].setPrefHeight(h + 30);
-//            if (p.equals("m")) {
-//                playedCards[i].setLayoutX(width / 2 - total_w / 2 + i * w / 3);
-//                playedCards[i].setLayoutY(height / 2 - 65);
-//                playedCards[i].setPrefHeight(h + 30);
-//            }
-            if (p.equals(player1_id)) {
-//                playedCards[i].setLayoutX(bias + i * w / 3);
-//                playedCards[i].setLayoutY(height / 2 - 65);
-//                playedCards[i].setPrefHeight(h + 30);
-                player1_deckNum -= 1;
-                player1_num.setText(player1_deckNum + "张");
-            } else {
-//                playedCards[i].setLayoutX(width - bias - total_w + i * w / 3);
-//                playedCards[i].setLayoutY(height / 2 - 65);
-//                playedCards[i].setPrefHeight(h + 30);
-                player2_deckNum -= 1;
-                player2_num.setText(player2_deckNum + "张");
+            playerShowPane.getChildren().clear();
+            prevPlayerShowPane.getChildren().clear();
+            nextPlayerShowPane.getChildren().clear();
+            String p = str[0];
+            List<String> list = Arrays.asList(s.substring(1, str.length).split(""));
+            ArrayList<String> cards = new ArrayList<>(list);
+            double w = images[0].getWidth() * 3 / 4;
+            double h = images[0].getWidth() * 3 / 4;
+            int num = cards.size();
+            this.last_cardNum = num;
+            for (int i = 0; i < 20; i++) {
+                playedCards[i] = new Label();
             }
-            int inti = i;
-            playerShowPane.getChildren().add(playedCards[inti]);
-        }
+            for (int i = 0; i < num; i++) {
+                addIcon(playedCards[i], cards.get(i), images);
+                if (p.equals("m")) {
+                    playedCards[i].setLayoutX(playerShowPane.getWidth()/2-(w/3)*(4+num)/2+i * w / 3);
+                    playerShowPane.getChildren().add(playedCards[i]);
+                    System.out.println(p+"showm");
+                }
+                else if (p.equals(player1_id)) {
+                    playedCards[i].setLayoutX(i * w / 3);
+                    player1_deckNum -= 1;
+                    prevPlayerShowPane.getChildren().add(playedCards[i]);
+                    player1_num.setText(player1_deckNum + "张");
+                    System.out.println(p+"showplayer1");
+                } else {
+                    playedCards[i].setLayoutX(i * w / 3);
+                    player2_deckNum -= 1;
+                    nextPlayerShowPane.getChildren().add(playedCards[i]);
+                    player2_num.setText(player2_deckNum + "张");
+                    System.out.println(p+"showplayer2");
+                }
+            }
         });
     }
 
@@ -599,24 +646,22 @@ public class GameController {
         ImageView pass = new ImageView(passImage);
         Label l = new Label();
         l.setGraphic(pass);
+        String[] str = s.split("");
         Platform.runLater(()-> {
-                    playerShowPane.getChildren().add(l);
-            try {
-                sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if(str[0].equals("m")) {
+                playerShowPane.getChildren().clear();
+                playerShowPane.getChildren().add(l);
             }
-            playerShowPane.getChildren().remove(l);
+            else if(str[0].equals(player1_id)){
+                prevPlayerShowPane.getChildren().clear();
+                prevPlayerShowPane.getChildren().add(l);
+            }
+            else {
+                nextPlayerShowPane.getChildren().clear();
+                nextPlayerShowPane.getChildren().add(l);
+            }
         });
-//        if (s.equals(player1_id)) {
-//            player1_num.setGraphic(pass);
-//            sleep(1000);
-//            player1_num.setGraphic(null);
-//        } else if (s.equals(player2_id)) {
-//            player2_num.setGraphic(pass);
-//            sleep(1000);
-//            player2_num.setGraphic(null);
-//        }
+
     }
 
 
@@ -672,6 +717,9 @@ public class GameController {
         Platform.runLater(()->{
             ready.setGraphic(readyView);
             readyPane.getChildren().remove(ready);
+            PlayerImgView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
+            Player1ImageView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
+            Player2ImageView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
         });
     }
 
