@@ -66,7 +66,7 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
     public void run() {
         try {
                 do {
-                    //if (!player.isInGame())
+                    if (!player.isInGame())
                         this.room = selectRoom();
                 } while (!gameReady(room));//三个人都准备后break
                 this.room.decrease();

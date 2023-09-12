@@ -122,8 +122,9 @@ public class GameController {
                 Player1ImageView.setImage(new Image(getClass().getResource("img/GG_ready1.png").toExternalForm()));
                 System.out.println("Player1 is ready");
             }
+
             if(s.charAt(3)=='0'){
-                Player1ImageView.setImage(new Image(getClass().getResource("bg/close.png").toExternalForm()));
+                Player2ImageView.setImage(new Image(getClass().getResource("bg/close.png").toExternalForm()));
             }
             else if(s.charAt(3)=='1'){
                 Player2ImageView.setImage(new Image(getClass().getResource("img/GG.png").toExternalForm()));
