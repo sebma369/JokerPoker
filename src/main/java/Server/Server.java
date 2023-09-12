@@ -65,18 +65,17 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
     @Override
     public void run() {
         try {
-
-            do {
-                if (!player.isInGame())
-                    //选择房间
-                    this.room = selectRoom();
-            } while (!gameReady(room));//三个人都准备后break
-            this.room.decrease();
-            if (Room.n == 0){//由一个人的线程启动游戏线程
-                Room.n = 3;
-                new GameThread(room.getPlayers()).start();//开始游戏
-            }
-            System.out.println("start");
+                do {
+                    //if (!player.isInGame())
+                        //选择房间
+                        this.room = selectRoom();
+                } while (!gameReady(room));//三个人都准备后break
+                this.room.decrease();
+                if (Room.n == 0) {//由一个人的线程启动游戏线程
+                    Room.n = 3;
+                    new GameThread(room.getPlayers()).start();//开始游戏
+                }
+                System.out.println("start");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +91,8 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
      */
     //选择房间
     public Room selectRoom() throws IOException {
-        rooms[0].addPlayer(player);
+        if(!rooms[0].getPlayers().contains(player))
+            rooms[0].addPlayer(player);
         return rooms[0];
 //        String message;
 //        while (true){
@@ -161,7 +161,6 @@ class PlayerMsg extends Thread {//一个玩家线程,用于选择房间到开始
                 System.out.println("quit");
                 return false;//重新进入大厅阶段,选择房间
             }
-
         }
     }
     /**

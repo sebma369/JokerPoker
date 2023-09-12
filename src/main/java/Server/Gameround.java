@@ -92,11 +92,11 @@ public class Gameround {
     //发牌
     public void dealCards() {
         Collections.shuffle(setCards);//打乱牌组
-        List<String> deck = setCards.subList(0, 17);//发牌,一人17张
+        List<String> deck = setCards.subList(0, 1);//发牌,一人17张
         players.get(0).setPlayerDeck(new ArrayList<>(deck));
-        deck = setCards.subList(17, 34);
+        deck = setCards.subList(1, 3);
         players.get(1).setPlayerDeck(new ArrayList<>(deck));
-        deck = setCards.subList(34, 51);
+        deck = setCards.subList(4, 5);
         players.get(2).setPlayerDeck(new ArrayList<>(deck));
         deck = setCards.subList(51, 54);
         remain = new ArrayList<>(deck);//3张地主牌

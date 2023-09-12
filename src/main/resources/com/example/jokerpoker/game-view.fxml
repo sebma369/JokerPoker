@@ -12,7 +12,7 @@
          <children>
             <HBox prefHeight="350.0" prefWidth="1002.0">
                <children>
-                  <Pane prefHeight="133.0" prefWidth="346.0" />
+                  <Pane fx:id="readyPane" prefHeight="133.0" prefWidth="346.0" />
                   <GridPane fx:id="dipai" alignment="CENTER" prefHeight="133.0" prefWidth="324.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.0" minWidth="10.0" prefWidth="110.0" />
@@ -82,9 +82,9 @@
             <Pane fx:id="playerPane" prefHeight="511.0" prefWidth="1002.0">
                <children>
       
-                                             <Pane fx:id="playerShowPane" layoutX="89.0">
+                                             <Pane fx:id="playerShowPane" layoutX="233.0" prefHeight="158.0" prefWidth="490.0">
                      <children>
-                        <GridPane fx:id="front" layoutX="294.0" layoutY="88.0" prefHeight="48.0" prefWidth="234.0">
+                        <GridPane fx:id="front" layoutX="128.0" layoutY="110.0" prefHeight="48.0" prefWidth="234.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -101,7 +101,7 @@
                   <Label fx:id="playerNickname" layoutX="50.0" layoutY="261.0" />
       
                                              <!-- 牌显示pane -->
-                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="114.0" prefHeight="148.0" styleClass="pokers" />
+                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="140.0" prefHeight="158.0" styleClass="pokers" />
             
                                                    <!-- 当前玩家头像 -->
                   <ImageView layoutY="154.0">

@@ -36,7 +36,7 @@ public class Player {
     private String serverMessage;//服务器消息
     private boolean isLord;//自己是不是地主
     public String whoIsLord = "zsj";//谁是地主
-    private String state;//准备状态
+    String state;//准备状态
     private boolean isInGame;//判断是否从游戏里出来
     private String roomInfo;//房间内玩家准备情况
     private String roomNum;//大厅里房间人数情况
@@ -181,9 +181,6 @@ public class Player {
     }
 
     public void playGame() throws IOException, InterruptedException {
-        if (!HelloApplication.login) {
-            System.out.println("456123");
-            return ;}
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(Player.class.getResource("game-view.fxml"));
         Parent root = fxmlLoader.load();
@@ -204,32 +201,16 @@ public class Player {
         //gameController.printCards();
         Thread newThread = new Thread(()->{
                 try {
-                    if(gameReady()) {
+                    while(gameReady()) {
                         do {
                             this.isInGame = true;//游戏局内,设为true,游戏单局结束后直接到准备阶段
                             //获取手牌
                             dealCards();
                         } while (!qiangdizhu());
-                        System.out.println("123456789");
                         while (true) {
                             serverMessage = in.readUTF();
                             if (serverMessage.equals("请你出牌")) {
                                 System.out.println("请你出牌");//前端提示玩家出牌
-//                str = client.scanner.nextLine();//测试,记得删除
-//                while (true) {//测试可把while注释,上面取消注释,可以直接把牌出完
-//                    str = client.scanner.nextLine();//前端设置为while死循环,可以将这个循环放到界面方法里面
-//                    if (str.equals("")) {
-//                        if (CompareCard.getInstance().getPlayer().equals("m")) {
-//                            System.out.println("必须出牌");//前端提示玩家必须出牌
-//                            continue;
-//                        } else
-//                            break;
-//                    }
-//                    if (CompareCard.getInstance().compare(str))
-//                        break;
-//                    System.out.println("吃不了,请重新出牌");//这个可以设置成出牌按钮灰色
-//                }
-                                //出牌
                                 gameController.outCards();
                                 //System.out.println("你现在的牌为" + deck.toString());
                             } else if (serverMessage.equals("游戏结束")) {//服务器返回结束信号
@@ -252,8 +233,7 @@ public class Player {
                                         gameController.showFarmerWin();
                                     }
                                 }
-                                //gameController.close();
-                                break;
+                            break;
                             } else {
                                 CompareCard.getInstance().setCompareCard(serverMessage);//记录其他玩家出牌
                                 gameController.printPlayedCards(serverMessage);
@@ -327,9 +307,11 @@ public class Player {
 //        }
     }
     public boolean gameReady() throws IOException {
+        System.out.println("gameready");
         this.isInGame = false;//退出游戏后返回准备
         // 阶段,可以退出房间到大厅或继续准备
-        this.state = "ready";//按钮切换ready,unready,quit
+        this.state = "unready";//按钮切换ready,unready,quit
+        gameController.setReady();
         String message;
         while (true) {
             message = in.readUTF();
@@ -339,6 +321,9 @@ public class Player {
             if (message.equals("start")) {
                 out.writeUTF("start");
                 System.out.println("start");
+                CompareCard.getInstance().player="m";
+                CompareCard.getInstance().cards= new ArrayList<>();
+                gameController.clearReady();
                 return true;
             }
             if (message.equals("quit")) {
