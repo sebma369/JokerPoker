@@ -55,6 +55,7 @@ public class Gameround {
         } while (!qiangdizhu());//抢地主,如果都为0,则重新发牌
         //出牌循环
         int i = whoIsLord;//记录谁是地主,从地主开始出牌
+        System.out.println(i);
         while (true) {
             //接收出的牌
             String r = sendToOne(i, "请你出牌");//提示玩家出牌

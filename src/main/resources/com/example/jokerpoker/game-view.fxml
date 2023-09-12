@@ -82,26 +82,14 @@
             <Pane fx:id="playerPane" prefHeight="511.0" prefWidth="1002.0">
                <children>
       
-                                             <Pane fx:id="playerShowPane" layoutX="233.0" prefHeight="158.0" prefWidth="490.0">
-                     <children>
-                        <GridPane fx:id="front" layoutX="128.0" layoutY="110.0" prefHeight="48.0" prefWidth="234.0">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                        </GridPane>
-                     </children>
-                  </Pane>
+                                             <Pane fx:id="playerShowPane" layoutX="233.0" prefHeight="158.0" prefWidth="490.0" />
       
                                              <!-- 当前玩家角色 -->
                   <Label fx:id="playerRole" layoutY="260.0" />
                   <Label fx:id="playerNickname" layoutX="50.0" layoutY="261.0" />
       
                                              <!-- 牌显示pane -->
-                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="140.0" prefHeight="158.0" styleClass="pokers" />
+                  <Pane fx:id="layeredPane" layoutX="132.0" layoutY="140.0" prefHeight="152.0" styleClass="pokers" />
             
                                                    <!-- 当前玩家头像 -->
                   <ImageView layoutY="154.0">

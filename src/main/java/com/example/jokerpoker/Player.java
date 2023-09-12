@@ -209,6 +209,7 @@ public class Player {
                         } while (!qiangdizhu());
                         while (true) {
                             serverMessage = in.readUTF();
+                            System.out.println(serverMessage);
                             if (serverMessage.equals("请你出牌")) {
                                 System.out.println("请你出牌");//前端提示玩家出牌
                                 gameController.outCards();

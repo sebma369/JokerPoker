@@ -38,9 +38,6 @@ public class GameController {
     @FXML
     Pane layeredPane; //放手牌
 
-    @FXML
-    GridPane front; //按钮区域
-
     //先不设定抢点机制
     Button chupai;
     Button buchu;
@@ -75,8 +72,6 @@ public class GameController {
     Label dipai_1;
     Label dipai_2;
     Label dipai_3;
-    Font font;
-    Font font2;
 
     private String player1_id;
     private String player2_id;
@@ -97,9 +92,11 @@ public class GameController {
     Button one = new Button();
     Button two = new Button();
     Button three = new Button();
-
-
-    private final Object lock = new Object();
+    ImageView readyView = new ImageView(new Image(getClass().getResource("img/ready.png").toExternalForm()));
+    Button ready = new Button();
+    ImageView unreadyView = new ImageView(new Image(getClass().getResource("img/unready.png").toExternalForm()));
+    @FXML
+    Pane readyPane;
 
     public void setPlayer(Player player){
         this.player = player;
@@ -118,6 +115,30 @@ public class GameController {
                     throw new RuntimeException(e);
                 }
                 System.exit(0);
+            }
+        });
+        ready.setLayoutX(100);
+        ready.setLayoutY(20);
+        ready.setGraphic(readyView);
+        ready.setBackground(null);
+        ready.setOnMouseClicked(mouseEvent -> {
+            if(!layeredPane.getChildren().isEmpty()) {
+                Platform.runLater(()->{
+                    layeredPane.getChildren().clear();
+                    playerShowPane.getChildren().clear();
+                    dipai_1.setGraphic(new ImageView(poker_backImage));
+                    dipai_2.setGraphic(new ImageView(poker_backImage));
+                    dipai_3.setGraphic(new ImageView(poker_backImage));
+                    card.clear();
+                });
+            }
+            if(player.state.equals("unready")){
+                player.state="ready";
+                ready.setGraphic(unreadyView);
+            }
+            else{
+                player.state="unready";
+                ready.setGraphic(readyView);
             }
         });
         chupai = new Button();
@@ -155,6 +176,11 @@ public class GameController {
         one.setLayoutY(100);
         two.setLayoutY(100);
         three.setLayoutY(100);
+        bujiao.setBackground(null);
+        one.setBackground(null);
+        two.setBackground(null);
+        three.setBackground(null);
+
         bujiao.setOnMouseClicked(mouseEvent -> {
             this.qiangdizhu = "0";
         });
@@ -168,8 +194,6 @@ public class GameController {
             this.qiangdizhu = "3";
         });
 
-        font = new Font("宋体", Font.BOLD, 20);
-        font2 = new Font("宋体", Font.BOLD, 16);
         player1_id = "-1";
         player2_id = "-1";
         x = 450;
@@ -180,10 +204,16 @@ public class GameController {
         images = new Image[15];//卡牌图片
         buchu.setGraphic(buchu_btnView);
         chupai.setGraphic(chupai_false_btn);
+        buchu.setBackground(null);
+        chupai.setBackground(null);
+        chupai.setLayoutY(100);
+        buchu.setLayoutY(100);
+        chupai.setLayoutX(100);
+        buchu.setLayoutX(300);
         chupai.setOnAction(e->{
             if(!card.isEmpty()) {
-                front.getChildren().remove(buchu);
-                front.getChildren().remove(chupai);
+                playerShowPane.getChildren().remove(buchu);
+                playerShowPane.getChildren().remove(chupai);
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Integer i : this.card) {
                     stringBuilder.append(player.getDeck().get(i));
@@ -214,8 +244,8 @@ public class GameController {
                 alert.setContentText("必须出牌");
                 alert.showAndWait();
             } else {
-                front.getChildren().remove(chupai);
-                front.getChildren().remove(buchu);
+                playerShowPane.getChildren().remove(chupai);
+                playerShowPane.getChildren().remove(buchu);
                 for (Integer i : card) {
                     labels[i].setTranslateY(labels[i].getTranslateY() + 20);
                 }
@@ -503,38 +533,13 @@ public class GameController {
     }
     public StringBuilder stringBuilder = new StringBuilder();
     public void outCards() {
+
         Platform.runLater(()-> {
             chupai.setDisable(true);
-            this.front.add(chupai, 0, 0);
-            this.front.add(buchu, 1, 0);
+            playerShowPane.getChildren().add(chupai);
+            playerShowPane.getChildren().add(buchu);
+            System.out.println("out");
         });
-//        t1 = new Thread(() -> {
-//            try {
-//                System.out.println("wait开始");
-//                synchronized (lock) {
-//                    lock.wait();
-//                }
-//                System.out.println("wait结束");
-//                this.isOutCards = false;
-//                System.out.println("asdasqwew");
-//                stringBuilder  = new StringBuilder();
-//                for (Integer i : this.card) {
-//                    stringBuilder.append(player.getDeck().get(i));
-//                }
-//
-//                card.clear();
-//
-//                // 在事件分发线程上执行界面操作
-//                Platform.runLater(() -> {
-//                    for(Label label: labels){
-//                        layeredPane.getChildren().remove(label);
-//                    }
-//                });
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//        t1.start();
     }
     Label[] playedCards = new Label[20];
     public void printPlayedCards(String s) throws InterruptedException{
@@ -661,5 +666,18 @@ public class GameController {
         else{
             ImageView newImg = new ImageView(images[14]);
             label.setGraphic(newImg);}
+    }
+
+    public void clearReady() {
+        Platform.runLater(()->{
+            ready.setGraphic(readyView);
+            readyPane.getChildren().remove(ready);
+        });
+    }
+
+    public void setReady() {
+        Platform.runLater(()->{
+            readyPane.getChildren().add(ready);
+        });
     }
 }
