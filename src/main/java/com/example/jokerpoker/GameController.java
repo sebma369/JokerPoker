@@ -138,20 +138,27 @@ public class GameController {
 
 
     public void init(){
-        player1_num.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent arg0) {
-                player.isInGame=false;
-                player.state="quit";
-                AccountDAO accountDAO = new AccountDAO();
-                String user = player.getUsername();
-                try {
-                    accountDAO.updateOnline(user,0);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+        player1_num.getScene().getWindow().setOnCloseRequest(windowEvent ->  {
+                if (player.isInGame){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("警告");
+                    alert.setContentText("请完成这局游戏");
+                    alert.setHeaderText("错误");
+                    alert.showAndWait();
+                    windowEvent.consume();
                 }
-                System.exit(0);
-            }
+                else {
+                    player.isInGame = false;
+                    player.state = "quit";
+                    AccountDAO accountDAO = new AccountDAO();
+                    String user = player.getUsername();
+                    try {
+                        accountDAO.updateOnline(user, 0);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.exit(0);
+                }
         });
         Platform.runLater(()->{
             playerNickname.setText(player.getUsername());
@@ -302,6 +309,11 @@ public class GameController {
                     labels[i].setTranslateY(labels[i].getTranslateY() + 20);
                 }
                 String str = "";
+                try {
+                    printPlayedCards("m");
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
                 try {
                     player.out.writeUTF(str);//str表示出的牌
                 } catch (IOException ex) {
@@ -483,33 +495,27 @@ public class GameController {
         Image lordWinImage = new Image(getClass().getResource("img/lord_win.png").toExternalForm());
         ImageView lordWin = new ImageView(lordWinImage);
         Label label = new Label("", lordWin);
-
-
+        player.isInGame=false;
         Platform.runLater(()-> {
                     layeredPane.getChildren().add(label);
         });
 
-        //layeredPane.setLayer(label, 290);
-        //JAVAFX不能设置层级
-        sleep(3000);
     }
 
     public void showLordLose() throws InterruptedException {
         Image lordLoseImage = new Image(getClass().getResource("img/lord_lose.png").toExternalForm());
         ImageView lordLose = new ImageView(lordLoseImage);
         Label label = new Label("", lordLose);
-
+        player.isInGame=false;
         Platform.runLater(()-> {
         layeredPane.getChildren().add(label);});
-
-
     }
 
     public void showFarmerWin() throws InterruptedException {
         Image farmerWinImage = new Image(getClass().getResource("img/farmer_win.png").toExternalForm());
         ImageView farmerWin = new ImageView(farmerWinImage);
         Label label = new Label("", farmerWin);
-
+        player.isInGame=false;
         Platform.runLater(()-> {
         layeredPane.getChildren().add(label);});
 
@@ -519,7 +525,7 @@ public class GameController {
         Image farmerLoseImage = new Image(getClass().getResource("img/farmer_lose.png").toExternalForm());
         ImageView farmerLose = new ImageView(farmerLoseImage);
         Label label = new Label("", farmerLose);
-
+        player.isInGame=false;
         Platform.runLater(()-> {
         layeredPane.getChildren().add(label);});
 
@@ -632,7 +638,7 @@ public class GameController {
                     player1_num.setText(player1_deckNum + "张");
                     System.out.println(p+"showplayer1");
                 } else {
-                    playedCards[i].setLayoutX(i * w / 3);
+                    playedCards[i].setLayoutX((w/3)*num-i * w / 3);
                     player2_deckNum -= 1;
                     nextPlayerShowPane.getChildren().add(playedCards[i]);
                     player2_num.setText(player2_deckNum + "张");
@@ -648,9 +654,12 @@ public class GameController {
         Label l = new Label();
         l.setGraphic(pass);
         String[] str = s.split("");
+        System.out.println("what"+str[0]);
         Platform.runLater(()-> {
             if(str[0].equals("m")) {
                 playerShowPane.getChildren().clear();
+                l.setLayoutX(250);
+                l.setLayoutY(30);
                 playerShowPane.getChildren().add(l);
             }
             else if(str[0].equals(player1_id)){

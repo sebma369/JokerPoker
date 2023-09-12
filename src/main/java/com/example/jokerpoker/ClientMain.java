@@ -13,8 +13,6 @@ public class ClientMain extends Application {
     Stage stage = new Stage();
     @Override
     public void start(Stage stage) throws Exception {
-        //helloApplication.start(stage);
-        Player player = new Player();
-        player.playGame();
+        helloApplication.start(stage);
     }
 }
